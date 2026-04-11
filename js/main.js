@@ -25,7 +25,8 @@ async function loadContent() {
         loadShows(),
         loadGallery(),
         loadVideos(),
-        loadAbout()
+        loadAbout(),
+        loadSocialProof()
     ]);
 }
 
@@ -60,6 +61,27 @@ async function loadSiteConfig() {
             }
         });
     }
+}
+
+// Social Proof logos
+async function loadSocialProof() {
+    var data = await fetchJSON('content/social_proof.json');
+    if (!data || !data.logos || !data.logos.length) return;
+
+    var grid = document.getElementById('social-proof-grid');
+    if (!grid) return;
+
+    grid.innerHTML = data.logos.map(function(logo) {
+        var name = escapeHTML(logo.name);
+        if (logo.image) {
+            return '<div class="glass media-logo-card p-6">' +
+                '<img src="' + escapeHTML(logo.image) + '" alt="' + name + '" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity">' +
+                '</div>';
+        }
+        return '<div class="glass media-logo-card p-6">' +
+            '<span class="text-slate-400 font-bold text-lg">' + name + '</span>' +
+            '</div>';
+    }).join('');
 }
 
 // About content

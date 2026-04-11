@@ -5,9 +5,10 @@
 
 backend:
   name: github
-  repo: eudenysjackson/site           # <-- Ajuste se o repo tiver outro nome
+  repo: eudenysjackson/site
   branch: main
-  base_url: https://decap-oauth.netlify.app  # OAuth proxy público do Decap (funciona sem Netlify)
+  auth_type: pkce
+  app_id: Ov23liN99RuYmQVYRlM9
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
@@ -120,6 +121,23 @@ collections:
             fields:
               - { label: "Imagem", name: "image", widget: "image" }
               - { label: "Legenda", name: "caption", widget: "string", required: false }
+
+  # ===== VISTO E APROVADO POR =====
+  - name: "social_proof"
+    label: "⭐ Visto e Aprovado"
+    files:
+      - name: "social_proof"
+        label: "Logos de Mídia"
+        file: "content/social_proof.json"
+        format: "json"
+        fields:
+          - label: "Logos"
+            name: "logos"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Nome", name: "name", widget: "string", hint: "Ex: Rede Globo" }
+              - { label: "Logo (imagem)", name: "image", widget: "image", hint: "PNG com fundo transparente. Recomendado: 200x100px" }
 
   # ===== VÍDEOS =====
   - name: "videos"
