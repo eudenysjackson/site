@@ -9,13 +9,7 @@
     </style>
 </head>
 <body>
-    <!-- Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.3.0/dist/decap-cms.js"></script>
-    <script>
-        // Force PKCE auth - bypass Netlify redirect
-        if (document.location.hash.includes('token=')) {
-            // Handle OAuth callback
-        }
-    </script>
+    <!-- Sveltia CMS (drop-in replacement com PKCE nativo) -->
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
 </body>
 </html>
