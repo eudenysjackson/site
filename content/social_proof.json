@@ -1,8 +1,20 @@
 {
-    "logos": [
-        { "name": "Rede Globo", "image": "" },
-        { "name": "Multishow", "image": "" },
-        { "name": "TV Record", "image": "" },
-        { "name": "FUNARJ", "image": "" }
-    ]
+  "logos": [
+    {
+      "name": "Rede Globo",
+      "image": "/images/uploads/960px-TV_Globo_logo_(April_2025)_edited.png"
+    },
+    {
+      "name": "Multishow",
+      "image": "/images/uploads/960px-Multishow_logo_red_2012_edited.png"
+    },
+    {
+      "name": "TV Record",
+      "image": "/images/uploads/Logotipo_da_Rede_Record_edited.png"
+    },
+    {
+      "name": "FUNARJ",
+      "image": "/images/uploads/Espaços FUNARJ (7).png"
+    }
+  ]
 }
