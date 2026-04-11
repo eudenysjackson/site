@@ -247,7 +247,8 @@ async function loadVideos() {
     emptyState.classList.add('hidden');
 
     grid.innerHTML = data.videos.map(video => {
-        var vid = encodeURIComponent(video.youtube_id);
+        var vid = extractYouTubeId(video.youtube_id);
+        if (!vid) return '';
         return `
         <div class="video-card">
             <div class="video-thumb" onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/${vid}?autoplay=1\\' title=\\'${escapeHTML(video.title)}\\' allow=\\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\' allowfullscreen></iframe>'">
@@ -260,6 +261,23 @@ async function loadVideos() {
             </div>
         </div>
     `}).join('');
+}
+
+// Extract YouTube video ID from URL or raw ID
+function extractYouTubeId(input) {
+    if (!input) return null;
+    input = input.trim();
+    // Already a plain ID (no slashes, no dots)
+    if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
+    // Full URL: extract v= param or /embed/ or youtu.be/
+    try {
+        var url = new URL(input);
+        if (url.searchParams.has('v')) return url.searchParams.get('v');
+        if (url.pathname.startsWith('/embed/')) return url.pathname.split('/embed/')[1].split('/')[0];
+        if (url.hostname === 'youtu.be') return url.pathname.substring(1).split('/')[0];
+    } catch (e) {}
+    // Last resort: return as-is
+    return input;
 }
 
 /* ===== NAVIGATION ===== */

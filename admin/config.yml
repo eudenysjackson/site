@@ -185,8 +185,8 @@ collections:
             summary: "{{fields.title}}"
             fields:
               - { label: "Título", name: "title", widget: "string" }
-              - label: "ID do YouTube"
+              - label: "Link ou ID do YouTube"
                 name: "youtube_id"
                 widget: "string"
-                hint: "Apenas o ID. Ex: se a URL é youtube.com/watch?v=dQw4w9WgXcQ, cole apenas 'dQw4w9WgXcQ'"
+                hint: "Cole a URL completa do YouTube (ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ) ou só o ID"
               - { label: "Descrição", name: "description", widget: "text", required: false }
