@@ -136,6 +136,12 @@ collections:
             fields:
               - { label: "Imagem", name: "image", widget: "image" }
               - { label: "Legenda", name: "caption", widget: "string", required: false }
+              - label: "Posição da Imagem"
+                name: "position"
+                widget: "string"
+                required: false
+                default: "50% 50%"
+                hint: "X% Y%. Ex: 50% 30% (centro, mais pro topo). 50% 50% = centro"
 
   # ===== VISTO E APROVADO POR =====
   - name: "social_proof"
