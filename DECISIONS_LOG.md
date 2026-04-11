@@ -11,12 +11,12 @@
 - **Consequências**: Tailwind compila no browser (pequeno overhead). Não é ideal para sites com tráfego altíssimo, mas perfeito para um site institucional/tributo.
 - **Revisar quando**: Se o site precisar de performance extrema ou server-side rendering
 
-### DEC-002 — CMS: Decap CMS
-- **Data**: 2026-04-11
-- **Decisão**: Usar Decap CMS (antigo Netlify CMS) para painel administrativo
-- **Por quê**: Open source, grátis, funciona com GitHub Pages, interface visual amigável, edita arquivos JSON diretamente no repo
-- **Consequências**: Requer configuração de OAuth para autenticação. Conteúdo é versionado no Git.
-- **Revisar quando**: Se precisar de um CMS mais robusto com workflows editoriais complexos
+### DEC-002 — CMS: Sveltia CMS (substituiu Decap CMS)
+- **Data**: 2026-04-11 (atualizado 2026-04-12)
+- **Decisão**: Usar Sveltia CMS com autenticação via Personal Access Token (PAT)
+- **Por quê**: Decap CMS tinha problemas com OAuth proxy (404). Sveltia CMS é drop-in replacement, mais moderno, e suporta token auth sem servidor OAuth.
+- **Consequências**: Usuário precisa gerar um PAT no GitHub e colar na tela de login. Token fica salvo no localStorage do browser.
+- **Revisar quando**: Se GitHub liberar PKCE client-side (roadmap issue #1153), migrar para PKCE. Ou se precisar de login OAuth, usar Sveltia CMS Authenticator no Cloudflare Workers.
 
 ### DEC-003 — i18n: Sistema próprio em JS
 - **Data**: 2026-04-11
