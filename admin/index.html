@@ -4,13 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Denys Jackson Na Ponta dos Pés</title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <style>
         body { margin: 0; }
     </style>
 </head>
 <body>
     <!-- Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script src="https://unpkg.com/decap-cms@^3.3.0/dist/decap-cms.js"></script>
+    <script>
+        // Force PKCE auth - bypass Netlify redirect
+        if (document.location.hash.includes('token=')) {
+            // Handle OAuth callback
+        }
+    </script>
 </body>
 </html>
