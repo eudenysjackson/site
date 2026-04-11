@@ -4,6 +4,15 @@
   "email": "denysjackson@denysjackson.com.br",
   "phone": "(21) 96506-4725",
   "cnpj": "55.278.379/0001-98",
+  "hero_text": {
+    "title": "Denys Jackson",
+    "subtitle": "Na Ponta dos Pés",
+    "tagline": "Tributo a Michael Jackson",
+    "description": "Uma experiência que celebra a música, conecta corações e mantém vivo o legado e a essência de um dos maiores artistas de todos os tempos.",
+    "font": "Inter",
+    "show_tagline": true,
+    "show_description": true
+  },
   "hero_image": "/images/uploads/IMG_9617-1.jpg",
   "hero_position": "50% 0%",
   "hero_image_mobile": "/images/uploads/IMG_9617.jpg",

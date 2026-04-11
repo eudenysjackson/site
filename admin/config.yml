@@ -32,6 +32,37 @@ collections:
           - { label: "Email", name: "email", widget: "string" }
           - { label: "Telefone", name: "phone", widget: "string" }
           - { label: "CNPJ", name: "cnpj", widget: "string" }
+          - label: "Texto Hero"
+            name: "hero_text"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Título Principal", name: "title", widget: "string", default: "Denys Jackson", hint: "Nome grande na capa" }
+              - { label: "Subtítulo", name: "subtitle", widget: "string", default: "Na Ponta dos Pés", hint: "Texto logo abaixo do título" }
+              - { label: "Tagline (acima do título)", name: "tagline", widget: "string", default: "Tributo a Michael Jackson", hint: "Texto dourado acima do nome" }
+              - { label: "Descrição", name: "description", widget: "text", default: "Uma experiência que celebra a música, conecta corações e mantém vivo o legado e a essência de um dos maiores artistas de todos os tempos.", hint: "Parágrafo abaixo do subtítulo" }
+              - label: "Fonte do Título"
+                name: "font"
+                widget: "select"
+                default: "Inter"
+                hint: "Fonte usada no título e subtítulo"
+                options:
+                  - { label: "Inter (padrão)", value: "Inter" }
+                  - { label: "Oswald (bold condensado)", value: "Oswald" }
+                  - { label: "Bebas Neue (impacto)", value: "Bebas Neue" }
+                  - { label: "Playfair Display (elegante)", value: "Playfair Display" }
+                  - { label: "Montserrat (moderno)", value: "Montserrat" }
+                  - { label: "Anton (extra bold)", value: "Anton" }
+              - label: "Mostrar tagline?"
+                name: "show_tagline"
+                widget: "boolean"
+                default: true
+                hint: "Desmarque para esconder o texto dourado acima do título"
+              - label: "Mostrar descrição?"
+                name: "show_description"
+                widget: "boolean"
+                default: true
+                hint: "Desmarque para esconder o parágrafo descritivo"
           - label: "Imagem Hero Desktop (fundo da capa)"
             name: "hero_image"
             widget: "image"

@@ -62,7 +62,7 @@ function fixImagePath(p) {
     return clean + '?t=' + Date.now();
 }
 
-// Site config (social links, hero image)
+// Site config (social links, hero image, hero text)
 async function loadSiteConfig() {
     const data = await fetchJSON('content/site.json');
     if (!data) return;
@@ -76,6 +76,49 @@ async function loadSiteConfig() {
         heroBg.style.backgroundImage = `url('${fixImagePath(img)}')`;
         heroBg.style.backgroundPosition = pos;
         heroBg.classList.add('has-image');
+    }
+
+    // Set hero texts from CMS
+    if (data.hero_text) {
+        var ht = data.hero_text;
+        if (ht.title) {
+            var el = document.getElementById('hero-title');
+            if (el) el.textContent = ht.title;
+        }
+        if (ht.subtitle) {
+            var el = document.getElementById('hero-subtitle');
+            if (el) el.textContent = ht.subtitle;
+        }
+        if (ht.tagline) {
+            var el = document.getElementById('hero-tagline');
+            if (el) el.textContent = ht.tagline;
+        }
+        if (ht.description) {
+            var el = document.getElementById('hero-description');
+            if (el) el.textContent = ht.description;
+        }
+        // Show/hide tagline
+        if (ht.show_tagline === false) {
+            var el = document.getElementById('hero-tagline');
+            if (el) el.style.display = 'none';
+        }
+        // Show/hide description
+        if (ht.show_description === false) {
+            var el = document.getElementById('hero-description');
+            if (el) el.style.display = 'none';
+        }
+        // Load custom font
+        if (ht.font && ht.font !== 'Inter') {
+            var fontUrl = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(ht.font) + ':wght@700;800;900&display=swap';
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = fontUrl;
+            document.head.appendChild(link);
+            var titleEl = document.getElementById('hero-title');
+            var subtitleEl = document.getElementById('hero-subtitle');
+            if (titleEl) titleEl.style.fontFamily = "'" + ht.font + "', sans-serif";
+            if (subtitleEl) subtitleEl.style.fontFamily = "'" + ht.font + "', sans-serif";
+        }
     }
 
     // Set social links
