@@ -37,10 +37,10 @@ collections:
             widget: "object"
             collapsed: true
             fields:
-              - { label: "Título Principal", name: "title", widget: "string", default: "Denys Jackson", hint: "Nome grande na capa" }
-              - { label: "Subtítulo", name: "subtitle", widget: "string", default: "Na Ponta dos Pés", hint: "Texto logo abaixo do título" }
-              - { label: "Tagline (acima do título)", name: "tagline", widget: "string", default: "Tributo a Michael Jackson", hint: "Texto dourado acima do nome" }
-              - { label: "Descrição", name: "description", widget: "text", default: "Uma experiência que celebra a música, conecta corações e mantém vivo o legado e a essência de um dos maiores artistas de todos os tempos.", hint: "Parágrafo abaixo do subtítulo" }
+              - { label: "Título Principal", name: "title", widget: "string", default: "Denys Jackson", required: false, hint: "Nome grande na capa. Deixe vazio para esconder." }
+              - { label: "Subtítulo", name: "subtitle", widget: "string", default: "Na Ponta dos Pés", required: false, hint: "Texto logo abaixo do título. Deixe vazio para esconder." }
+              - { label: "Tagline (acima do título)", name: "tagline", widget: "string", default: "Tributo a Michael Jackson", required: false, hint: "Texto dourado acima do nome. Deixe vazio para esconder." }
+              - { label: "Descrição", name: "description", widget: "text", default: "Uma experiência que celebra a música, conecta corações e mantém vivo o legado e a essência de um dos maiores artistas de todos os tempos.", required: false, hint: "Parágrafo abaixo do subtítulo. Deixe vazio para esconder." }
               - label: "Fonte do Título"
                 name: "font"
                 widget: "select"
