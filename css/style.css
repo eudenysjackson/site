@@ -223,7 +223,6 @@ body {
 
 .hero-bg.has-image {
     background-size: cover;
-    background-position: center top;
 }
 
 .hero-overlay {

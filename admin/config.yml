@@ -32,11 +32,44 @@ collections:
           - { label: "Email", name: "email", widget: "string" }
           - { label: "Telefone", name: "phone", widget: "string" }
           - { label: "CNPJ", name: "cnpj", widget: "string" }
-          - label: "Imagem Hero (fundo da capa)"
+          - label: "Imagem Hero Desktop (fundo da capa)"
             name: "hero_image"
             widget: "image"
             required: false
-            hint: "Imagem de fundo da seção principal. Recomendado: 1920x1080px"
+            hint: "Imagem de fundo no computador. Recomendado: 1920x1080px"
+          - label: "Posição da Imagem Desktop"
+            name: "hero_position"
+            widget: "select"
+            required: false
+            default: "center center"
+            hint: "Onde a foto fica centralizada no computador"
+            options:
+              - { label: "Centro", value: "center center" }
+              - { label: "Centro Topo", value: "center top" }
+              - { label: "Centro Base", value: "center bottom" }
+              - { label: "Esquerda Centro", value: "left center" }
+              - { label: "Direita Centro", value: "right center" }
+              - { label: "Esquerda Topo", value: "left top" }
+              - { label: "Direita Topo", value: "right top" }
+          - label: "Imagem Hero Mobile (celular)"
+            name: "hero_image_mobile"
+            widget: "image"
+            required: false
+            hint: "Imagem de fundo no celular. Se vazio, usa a mesma do desktop. Recomendado: 1080x1920px"
+          - label: "Posição da Imagem Mobile"
+            name: "hero_position_mobile"
+            widget: "select"
+            required: false
+            default: "center center"
+            hint: "Onde a foto fica centralizada no celular"
+            options:
+              - { label: "Centro", value: "center center" }
+              - { label: "Centro Topo", value: "center top" }
+              - { label: "Centro Base", value: "center bottom" }
+              - { label: "Esquerda Centro", value: "left center" }
+              - { label: "Direita Centro", value: "right center" }
+              - { label: "Esquerda Topo", value: "left top" }
+              - { label: "Direita Topo", value: "right top" }
           - label: "Redes Sociais"
             name: "social"
             widget: "object"
