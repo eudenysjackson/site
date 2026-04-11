@@ -81,31 +81,25 @@ async function loadSiteConfig() {
     // Set hero texts from CMS
     if (data.hero_text) {
         var ht = data.hero_text;
-        if (ht.title) {
-            var el = document.getElementById('hero-title');
-            if (el) el.textContent = ht.title;
+        // Title: update or hide
+        var titleEl = document.getElementById('hero-title');
+        if (titleEl) {
+            if (ht.title) { titleEl.textContent = ht.title; } else { titleEl.style.display = 'none'; }
         }
-        if (ht.subtitle) {
-            var el = document.getElementById('hero-subtitle');
-            if (el) el.textContent = ht.subtitle;
+        // Subtitle: update or hide
+        var subtitleEl = document.getElementById('hero-subtitle');
+        if (subtitleEl) {
+            if (ht.subtitle) { subtitleEl.textContent = ht.subtitle; } else { subtitleEl.style.display = 'none'; }
         }
-        if (ht.tagline) {
-            var el = document.getElementById('hero-tagline');
-            if (el) el.textContent = ht.tagline;
+        // Tagline: update or hide
+        var taglineEl = document.getElementById('hero-tagline');
+        if (taglineEl) {
+            if (ht.tagline && ht.show_tagline !== false) { taglineEl.textContent = ht.tagline; } else { taglineEl.style.display = 'none'; }
         }
-        if (ht.description) {
-            var el = document.getElementById('hero-description');
-            if (el) el.textContent = ht.description;
-        }
-        // Show/hide tagline
-        if (ht.show_tagline === false) {
-            var el = document.getElementById('hero-tagline');
-            if (el) el.style.display = 'none';
-        }
-        // Show/hide description
-        if (ht.show_description === false) {
-            var el = document.getElementById('hero-description');
-            if (el) el.style.display = 'none';
+        // Description: update or hide
+        var descEl = document.getElementById('hero-description');
+        if (descEl) {
+            if (ht.description && ht.show_description !== false) { descEl.textContent = ht.description; } else { descEl.style.display = 'none'; }
         }
         // Load custom font
         if (ht.font && ht.font !== 'Inter') {
@@ -114,8 +108,6 @@ async function loadSiteConfig() {
             link.rel = 'stylesheet';
             link.href = fontUrl;
             document.head.appendChild(link);
-            var titleEl = document.getElementById('hero-title');
-            var subtitleEl = document.getElementById('hero-subtitle');
             if (titleEl) titleEl.style.fontFamily = "'" + ht.font + "', sans-serif";
             if (subtitleEl) subtitleEl.style.fontFamily = "'" + ht.font + "', sans-serif";
         }
