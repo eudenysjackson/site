@@ -40,6 +40,11 @@ async function fetchJSON(url) {
     }
 }
 
+// Fix CMS absolute paths (/images/...) to relative (images/...)
+function fixPath(p) {
+    return (p && p.startsWith('/')) ? p.substring(1) : p;
+}
+
 // Site config (social links, hero image)
 async function loadSiteConfig() {
     const data = await fetchJSON('content/site.json');
@@ -48,7 +53,7 @@ async function loadSiteConfig() {
     // Set hero background image if available
     if (data.hero_image) {
         const heroBg = document.getElementById('hero-bg');
-        heroBg.style.backgroundImage = `url('${data.hero_image}')`;
+        heroBg.style.backgroundImage = `url('${fixPath(data.hero_image)}')`;
         heroBg.classList.add('has-image');
     }
 
@@ -75,7 +80,7 @@ async function loadSocialProof() {
         var name = escapeHTML(logo.name);
         if (logo.image) {
             return '<div class="glass media-logo-card p-6">' +
-                '<img src="' + escapeHTML(logo.image) + '" alt="' + name + '" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity">' +
+                '<img src="' + escapeHTML(fixPath(logo.image)) + '" alt="' + name + '" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity">' +
                 '</div>';
         }
         return '<div class="glass media-logo-card p-6">' +
@@ -124,7 +129,7 @@ async function loadAbout() {
     if (data.main_photo) {
         const photoEl = document.getElementById('about-photo');
         if (photoEl) {
-            photoEl.innerHTML = `<img src="${data.main_photo}" alt="Denys Jackson" class="w-full h-full object-cover">`;
+            photoEl.innerHTML = `<img src="${fixPath(data.main_photo)}" alt="Denys Jackson" class="w-full h-full object-cover">`;
         }
     }
 }
@@ -203,8 +208,8 @@ async function loadGallery() {
     emptyState.classList.add('hidden');
 
     grid.innerHTML = data.photos.map((photo, i) => `
-        <div class="gallery-item" data-index="${i}" data-src="${photo.image}" data-caption="${escapeHTML(photo.caption || '')}">
-            <img src="${photo.image}" alt="${escapeHTML(photo.caption || 'Foto')}" loading="lazy">
+        <div class="gallery-item" data-index="${i}" data-src="${fixPath(photo.image)}" data-caption="${escapeHTML(photo.caption || '')}">
+            <img src="${fixPath(photo.image)}" alt="${escapeHTML(photo.caption || 'Foto')}" loading="lazy">
             <div class="overlay">
                 <span>${escapeHTML(photo.caption || '')}</span>
             </div>
