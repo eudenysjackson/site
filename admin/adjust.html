@@ -167,7 +167,8 @@
 
     function fixImg(p) {
         if (!p) return '';
-        return p.startsWith('/') ? p.substring(1) : p;
+        // Ensure path starts with / for root-relative URL
+        return p.startsWith('/') ? p : '/' + p;
     }
 
     function parsePos(pos) {
