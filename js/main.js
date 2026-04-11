@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ===== CONTENT LOADING ===== */
 
+// Fetch JSON direto do GitHub (atualiza instantâneo após commit do CMS)
+var GITHUB_RAW = 'https://raw.githubusercontent.com/eudenysjackson/site/main/';
+
 async function loadContent() {
     await Promise.all([
         loadSiteConfig(),
@@ -30,14 +33,18 @@ async function loadContent() {
     ]);
 }
 
-async function fetchJSON(url) {
+async function fetchJSON(path) {
+    // Tenta buscar direto do GitHub (sem cache, atualização imediata)
     try {
-        const res = await fetch(url);
-        if (!res.ok) return null;
-        return await res.json();
-    } catch {
-        return null;
-    }
+        var res = await fetch(GITHUB_RAW + path + '?t=' + Date.now(), { cache: 'no-store' });
+        if (res.ok) return await res.json();
+    } catch (e) {}
+    // Fallback: busca local (GitHub Pages)
+    try {
+        var res2 = await fetch(path, { cache: 'no-store' });
+        if (res2.ok) return await res2.json();
+    } catch (e) {}
+    return null;
 }
 
 // Fix CMS absolute paths (/images/...) to relative (images/...)
