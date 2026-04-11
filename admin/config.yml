@@ -63,6 +63,11 @@ collections:
                 widget: "boolean"
                 default: true
                 hint: "Desmarque para esconder o parágrafo descritivo"
+              - label: "Mostrar botões (Ver Agenda / Assistir Vídeos)?"
+                name: "show_buttons"
+                widget: "boolean"
+                default: true
+                hint: "Desmarque para esconder os botões da capa"
           - label: "Imagem Hero Desktop (fundo da capa)"
             name: "hero_image"
             widget: "image"

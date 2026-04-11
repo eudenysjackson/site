@@ -101,6 +101,11 @@ async function loadSiteConfig() {
         if (descEl) {
             if (ht.description && ht.show_description !== false) { descEl.textContent = ht.description; } else { descEl.style.display = 'none'; }
         }
+        // Buttons: show or hide
+        if (ht.show_buttons === false) {
+            var btnsEl = document.getElementById('hero-buttons');
+            if (btnsEl) btnsEl.style.display = 'none';
+        }
         // Load custom font
         if (ht.font && ht.font !== 'Inter') {
             var fontUrl = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(ht.font) + ':wght@700;800;900&display=swap';
