@@ -65,10 +65,10 @@ async function loadSiteConfig() {
     if (!data) return;
 
     // Set hero background image if available
-    if (data.hero_image) {
+    if (data.hero_image || data.hero_image_mobile) {
         const heroBg = document.getElementById('hero-bg');
         const isMobile = window.innerWidth <= 768;
-        const img = (isMobile && data.hero_image_mobile) ? data.hero_image_mobile : data.hero_image;
+        const img = (isMobile && data.hero_image_mobile) ? data.hero_image_mobile : (data.hero_image || data.hero_image_mobile);
         const pos = (isMobile && data.hero_position_mobile) ? data.hero_position_mobile : (data.hero_position || 'center center');
         heroBg.style.backgroundImage = `url('${fixPath(img)}')`;
         heroBg.style.backgroundPosition = pos;
