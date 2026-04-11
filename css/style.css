@@ -232,8 +232,7 @@ body {
     background: linear-gradient(to bottom,
         rgba(26, 16, 64, 0.3) 0%,
         rgba(26, 16, 64, 0.1) 40%,
-        rgba(200, 210, 225, 0.6) 85%,
-        #c9d6e3 100%
+        rgba(26, 16, 64, 0.05) 100%
     );
 }
 
