@@ -47,9 +47,16 @@ async function fetchJSON(path) {
     return null;
 }
 
-// Fix CMS absolute paths (/images/...) to relative (images/...)
+// Fix CMS absolute paths and serve images from GitHub raw (instant update)
 function fixPath(p) {
-    return (p && p.startsWith('/')) ? p.substring(1) : p;
+    if (!p) return p;
+    // Remove leading slash
+    var clean = p.startsWith('/') ? p.substring(1) : p;
+    // Images from uploads → load from GitHub raw (instant, no deploy wait)
+    if (clean.startsWith('images/uploads/')) {
+        return GITHUB_RAW + clean;
+    }
+    return clean;
 }
 
 // Site config (social links, hero image)
