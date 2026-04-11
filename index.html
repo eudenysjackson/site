@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denys Jackson - Na Ponta dos Pés | Tributo a Michael Jackson</title>
+    <meta name="description" content="O maior tributo a Michael Jackson do Brasil. Shows com produção completa, ballet, figurinos fiéis e a energia do Rei do Pop ao vivo.">
+    <meta name="keywords" content="Denys Jackson, Na Ponta dos Pés, tributo Michael Jackson, show tributo, Michael Jackson Brasil">
+    <link rel="canonical" href="https://denysjackson.com.br">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Denys Jackson - Na Ponta dos Pés">
+    <meta property="og:description" content="O maior tributo a Michael Jackson do Brasil.">
+    <meta property="og:url" content="https://denysjackson.com.br">
+    <meta property="og:locale" content="pt_BR">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'inter': ['Inter', 'sans-serif'] },
+                    colors: {
+                        'dj': {
+                            'purple': '#1a1040',
+                            'indigo': '#4338ca',
+                            'gold': '#c9a96e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-inter antialiased">
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 md:h-20">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center">
+                    <img src="images/logos/logobranca.png" alt="Denys Jackson - Na Ponta dos Pés" class="nav-logo-img nav-logo-white h-10 md:h-12">
+                    <img src="images/logos/logopreta.png" alt="Denys Jackson - Na Ponta dos Pés" class="nav-logo-img nav-logo-dark h-10 md:h-12 hidden">
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#home" class="nav-link active" data-i18n="nav.home">Início</a>
+                    <a href="#sobre" class="nav-link" data-i18n="nav.about">Sobre</a>
+                    <a href="#agenda" class="nav-link" data-i18n="nav.schedule">Agenda</a>
+                    <a href="#midias" class="nav-link" data-i18n="nav.media">Mídias</a>
+                    <a href="#contato" class="nav-link" data-i18n="nav.contact">Contato</a>
+                    <div class="flex items-center gap-1 ml-4 text-xs">
+                        <button class="lang-btn active" data-lang="pt">PT</button>
+                        <span class="text-slate-400">|</span>
+                        <button class="lang-btn" data-lang="en">EN</button>
+                        <span class="text-slate-400">|</span>
+                        <button class="lang-btn" data-lang="es">ES</button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-toggle" class="md:hidden p-2" aria-label="Menu">
+                    <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-strong">
+            <div class="px-4 py-6 space-y-4">
+                <a href="#home" class="mobile-nav-link" data-i18n="nav.home">Início</a>
+                <a href="#sobre" class="mobile-nav-link" data-i18n="nav.about">Sobre</a>
+                <a href="#agenda" class="mobile-nav-link" data-i18n="nav.schedule">Agenda</a>
+                <a href="#midias" class="mobile-nav-link" data-i18n="nav.media">Mídias</a>
+                <a href="#contato" class="mobile-nav-link" data-i18n="nav.contact">Contato</a>
+                <div class="flex items-center gap-2 pt-4 border-t border-slate-200">
+                    <button class="lang-btn !text-slate-500" data-lang="pt">PT</button>
+                    <span class="text-slate-300">|</span>
+                    <button class="lang-btn !text-slate-500" data-lang="en">EN</button>
+                    <span class="text-slate-300">|</span>
+                    <button class="lang-btn !text-slate-500" data-lang="es">ES</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section id="home" class="hero-section">
+        <div id="hero-bg" class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="spotlight spotlight-1"></div>
+            <div class="spotlight spotlight-2"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <p class="text-dj-gold text-sm md:text-base font-bold tracking-[0.3em] uppercase mb-4 fade-in" data-i18n="hero.subtitle">
+                Tributo a Michael Jackson
+            </p>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-none mb-2 text-white fade-in" style="text-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                Denys Jackson
+            </h1>
+            <h2 class="text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-tight text-white/80 mb-8 fade-in" style="text-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                Na Ponta dos Pés
+            </h2>
+            <p class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 fade-in" style="text-shadow: 0 1px 4px rgba(0,0,0,0.2);" data-i18n="hero.description">
+                Uma experiência que celebra a música, conecta corações e mantém vivo o legado e a essência de um dos maiores artistas de todos os tempos.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 fade-in">
+                <a href="#agenda" class="btn-primary" data-i18n="hero.cta_schedule">Ver Agenda</a>
+                <a href="#midias" class="btn-secondary" data-i18n="hero.cta_watch">Assistir Vídeos</a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ========== VISTO E APROVADO POR ========== -->
+    <section id="social-proof" class="py-3 md:py-4">
+        <div class="max-w-5xl mx-auto px-4">
+            <h3 class="text-center text-xs font-bold tracking-[0.2em] uppercase text-slate-400 mb-4" data-i18n="social_proof.title">
+                Visto e Aprovado por
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="glass media-logo-card p-6">
+                    <img src="images/logos/globo.png" alt="Rede Globo" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity" onerror="this.parentElement.innerHTML='<span class=\'text-slate-400 font-bold text-lg\'>Rede Globo</span>'">
+                </div>
+                <div class="glass media-logo-card p-6">
+                    <img src="images/logos/multishow.png" alt="Multishow" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity" onerror="this.parentElement.innerHTML='<span class=\'text-slate-400 font-bold text-lg\'>Multishow</span>'">
+                </div>
+                <div class="glass media-logo-card p-6">
+                    <img src="images/logos/record.png" alt="TV Record" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity" onerror="this.parentElement.innerHTML='<span class=\'text-slate-400 font-bold text-lg\'>TV Record</span>'">
+                </div>
+                <div class="glass media-logo-card p-6">
+                    <img src="images/logos/funarj.png" alt="FUNARJ" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity" onerror="this.parentElement.innerHTML='<span class=\'text-slate-400 font-bold text-lg\'>FUNARJ</span>'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SOBRE ========== -->
+    <section id="sobre" class="py-3 md:py-4">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-6 md:mb-8">
+                <span class="section-label" data-i18n="about.label">Sobre</span>
+                <h2 class="section-title">Denys Jackson</h2>
+            </div>
+
+            <!-- Bio: Photo + Text inside a glass panel -->
+            <div class="glass-strong p-6 md:p-10 mb-6">
+                <div class="grid md:grid-cols-5 gap-8 items-start">
+                    <div class="md:col-span-2">
+                        <div id="about-photo" class="aspect-[3/4] rounded-xl overflow-hidden bg-white/30 flex items-center justify-center">
+                            <span class="text-slate-400 text-sm" data-i18n="about.photo_placeholder">Foto será carregada do painel</span>
+                        </div>
+                    </div>
+                    <div class="md:col-span-3">
+                        <div id="about-bio" class="text-slate-600 text-[15px] leading-relaxed space-y-5">
+                            <p>Saí do Maranhão aos 18 anos com o sonho de homenagear o Rei do Pop rumo ao Rio de Janeiro. O que começou em encontros de fãs e apresentações nas ruas de Madureira logo virou carreira. Por fugir do "mais do mesmo", a inovação me rendeu prêmios e espaço na mídia, com passagens pela TV Record, Multishow e capa no jornal O Globo. Fomos, inclusive, o primeiro tributo pop a tocar no Rock 80 Festival.</p>
+                            <p>Dos Palcos de Rua aos Grandes Teatros — nossa história é feita de olhos brilhando e sorrisos sinceros. Da estreia esgotada em Petrópolis à Avenida Paulista, conquistamos palcos como o Teatro Miguel Falabella e o Teatro Imperator. Através da parceria com a Funarj, estreamos com ingressos esgotados e rodamos diversas casas da fundação.</p>
+                            <p>Evoluir é a minha prioridade sempre. Além da performance, estudo gestão de produção artística, áreas técnicas e culturais, atuando ao lado de profissionais da própria Funarj. O nosso show já contou com mentorias de Rodrigo Teaser e Jonny Matos, referências que ajudam a manter o rigor técnico e a qualidade do que entregamos ao público.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass p-6 fade-in">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3" data-i18n="about.mission_title">Nossa Missão</h3>
+                    <p id="about-mission" class="text-slate-500 text-sm leading-relaxed">
+                        Entregamos uma experiência real, focada nas performances que os fãs amam. Com produção completa, ballet e figurinos fiéis, o espetáculo resgata a memória afetiva e traz para o presente os movimentos que marcaram gerações.
+                    </p>
+                </div>
+                <div class="glass p-6 fade-in">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3" data-i18n="about.objective_title">Nosso Objetivo</h3>
+                    <p id="about-objective" class="text-slate-500 text-sm leading-relaxed">
+                        Nosso propósito é manter o legado em movimento. Queremos apresentar às novas gerações não apenas a genialidade do Rei do Pop, mas o lado humanitário que ele exercia fora dos holofotes.
+                    </p>
+                </div>
+                <div class="glass p-6 fade-in">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3" data-i18n="about.community_title">Nossa Comunidade</h3>
+                    <p id="about-community" class="text-slate-500 text-sm leading-relaxed">
+                        Até aqui, seguimos de forma independente, movidos pelo nosso próprio esforço e pela fidelidade dos fãs. Agora, buscamos investidores, patrocinadores e editais para escalar o que já provou ser viável.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== O TRIBUTO ========== -->
+    <section id="tributo" class="py-3 md:py-4">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-6 md:mb-8">
+                <h2 class="section-title" data-i18n="tribute.title">O Tributo</h2>
+                <p class="text-slate-500 mt-4 max-w-2xl mx-auto" data-i18n="tribute.description">
+                    "Na Ponta dos Pés" nasceu em 2019 e desde então vem se profissionalizando e conquistando cada vez mais espaço e reconhecimento dentro do estado do Rio de Janeiro.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass-strong tribute-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800">Liberdade Criativa</h3>
+                            <p class="text-sm text-dj-indigo font-medium">Impacto Emocional</p>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=2cI6ZoNTxPA" target="_blank" rel="noopener" class="btn-small" data-i18n="tribute.watch_btn">Assista em 4K</a>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        Mais que um tributo, é a imersão total no legado do rei do pop. Decidimos quebrar o protocolo da turnê Dangerous para incluir "They Don't Care About Us", um hino de resistência que pulsa no coração dos fãs.
+                    </p>
+                </div>
+
+                <div class="glass-strong tribute-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800">Efeitos Especiais</h3>
+                            <p class="text-sm text-dj-indigo font-medium">Sombra Chinesa Gigante e o The Lean</p>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=uNfDsWxDfVc" target="_blank" rel="noopener" class="btn-small" data-i18n="tribute.watch_btn">Assista em 4K</a>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        No nosso show, replicamos a sombra chinesa gigante das turnês originais e o efeito "the lean". A técnica de antigravidade que ainda hoje surpreende quem assiste de perto.
+                    </p>
+                </div>
+
+                <div class="glass-strong tribute-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800">O Legado</h3>
+                            <p class="text-sm text-dj-indigo font-medium">Billie Jean, Thriller, Beat It</p>
+                        </div>
+                        <a href="https://www.youtube.com/watch?v=uNfDsWxDfVc" target="_blank" rel="noopener" class="btn-small" data-i18n="tribute.watch_btn">Assista em 4K</a>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        Os passos e os figurinos que marcaram época ganham vida no palco, desde o moonwalk à parada na ponta do pé que batiza o nosso show.
+                    </p>
+                </div>
+
+                <div class="glass-strong tribute-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800">Novidades</h3>
+                            <p class="text-sm text-dj-indigo font-medium">Remember The Time</p>
+                        </div>
+                        <a href="#midias" class="btn-small" data-i18n="tribute.watch_btn">Assista em 4K</a>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed">
+                        Tiramos do papel o que ficou apenas nos ensaios. Nosso palco revela o que o público nunca pôde ver ao vivo, transformando músicas como "Remember The Time" em uma performance completa.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== AGENDA ========== -->
+    <section id="agenda" class="py-3 md:py-4">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-6 md:mb-8">
+                <span class="section-label" data-i18n="schedule.label">Agenda</span>
+                <h2 class="section-title" data-i18n="schedule.title">Próximos Shows</h2>
+            </div>
+
+            <div class="glass-strong p-6 md:p-8">
+                <div id="shows-container">
+                    <div id="shows-empty" class="text-center py-12">
+                        <svg class="w-14 h-14 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <p class="text-slate-400 text-lg" data-i18n="schedule.empty">Em breve novos shows serão anunciados!</p>
+                        <p class="text-slate-400 text-sm mt-2" data-i18n="schedule.follow">Siga nossas redes para não perder nenhuma novidade.</p>
+                    </div>
+                    <div id="shows-list" class="space-y-4 hidden"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MÍDIAS ========== -->
+    <section id="midias" class="py-3 md:py-4">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-4 md:mb-6">
+                <span class="section-label" data-i18n="media.label">Mídias</span>
+                <h2 class="section-title" data-i18n="media.title">Galeria</h2>
+            </div>
+
+            <div class="flex justify-center gap-4 mb-6">
+                <button class="media-tab active" data-tab="fotos" data-i18n="media.photos_tab">Fotos</button>
+                <button class="media-tab" data-tab="videos" data-i18n="media.videos_tab">Vídeos</button>
+            </div>
+
+            <!-- Photos -->
+            <div id="tab-fotos" class="media-tab-content">
+                <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+                <div id="gallery-empty" class="glass text-center py-16">
+                    <svg class="w-14 h-14 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <p class="text-slate-400" data-i18n="media.photos_empty">Fotos serão adicionadas em breve.</p>
+                </div>
+            </div>
+
+            <!-- Videos -->
+            <div id="tab-videos" class="media-tab-content hidden">
+                <div id="videos-grid" class="grid md:grid-cols-2 gap-6"></div>
+                <div id="videos-empty" class="glass text-center py-16">
+                    <svg class="w-14 h-14 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <p class="text-slate-400" data-i18n="media.videos_empty">Vídeos serão adicionados em breve.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lightbox -->
+        <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
+            <button id="lightbox-close" class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl">&times;</button>
+            <img id="lightbox-img" class="max-w-full max-h-[85vh] object-contain rounded-lg" src="" alt="">
+            <p id="lightbox-caption" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm text-center"></p>
+        </div>
+    </section>
+
+    <!-- ========== CONTATO ========== -->
+    <section id="contato" class="py-3 md:py-4">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-6 md:mb-8">
+                <p class="section-label" data-i18n="contact.cta_label">Junte-se à nossa equipe</p>
+                <h2 class="text-2xl sm:text-3xl md:text-5xl font-black italic text-slate-800 mt-2" data-i18n="contact.cta_title">Aqui o tributo é de fã pra fã.</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Form -->
+                <div class="glass-strong p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2" data-i18n="contact.form_title">Fale conosco</h3>
+                    <p class="text-slate-400 text-sm mb-6" data-i18n="contact.form_description">Fale com a gente através do formulário ou das nossas redes sociais.</p>
+
+                    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="form-label" data-i18n="contact.name">Nome *</label>
+                                <input type="text" name="name" required class="form-input">
+                            </div>
+                            <div>
+                                <label class="form-label" data-i18n="contact.lastname">Sobrenome *</label>
+                                <input type="text" name="lastname" required class="form-input">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label" data-i18n="contact.email">Email *</label>
+                            <input type="email" name="email" required class="form-input">
+                        </div>
+                        <div>
+                            <label class="form-label" data-i18n="contact.whatsapp">WhatsApp</label>
+                            <input type="tel" name="whatsapp" class="form-input" placeholder="(21) 99999-9999">
+                        </div>
+                        <div class="relative">
+                            <label class="form-label" data-i18n="contact.subject">Assunto</label>
+                            <input type="hidden" name="subject" id="subject-value" value="contratacao">
+                            <div id="custom-select" class="form-input cursor-pointer flex items-center justify-between" tabindex="0">
+                                <span id="select-label" data-i18n="contact.subject_hire">Contratação de Show</span>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" id="select-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                            <div id="select-dropdown" class="hidden absolute left-0 right-0 top-full mt-1 glass-strong rounded-lg overflow-hidden z-20 shadow-lg">
+                                <div class="select-option active" data-value="contratacao" data-i18n="contact.subject_hire">Contratação de Show</div>
+                                <div class="select-option" data-value="parceria" data-i18n="contact.subject_partner">Parceria</div>
+                                <div class="select-option" data-value="imprensa" data-i18n="contact.subject_press">Imprensa</div>
+                                <div class="select-option" data-value="outro" data-i18n="contact.subject_other">Outro</div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label" data-i18n="contact.message">Mensagem *</label>
+                            <textarea name="message" required rows="4" class="form-input resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full" data-i18n="contact.send">Enviar mensagem</button>
+                    </form>
+                    <p id="form-status" class="text-center text-sm mt-4 hidden"></p>
+                </div>
+
+                <!-- Info + Social -->
+                <div class="space-y-6">
+                    <div class="glass p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4" data-i18n="contact.info_title">Informações</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-envelope text-dj-gold mt-1"></i>
+                                <div>
+                                    <p class="text-xs text-slate-400 uppercase tracking-wider" data-i18n="contact.email_label">Email</p>
+                                    <a href="mailto:denysjackson@denysjackson.com.br" class="text-slate-700 hover:text-dj-indigo transition-colors text-sm">denysjackson@denysjackson.com.br</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fab fa-whatsapp text-dj-gold mt-1"></i>
+                                <div>
+                                    <p class="text-xs text-slate-400 uppercase tracking-wider" data-i18n="contact.phone_label">WhatsApp</p>
+                                    <a href="https://wa.me/5521965064725" target="_blank" rel="noopener" class="text-slate-700 hover:text-dj-indigo transition-colors text-sm">(21) 96506-4725</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4" data-i18n="contact.social_title">Redes Sociais</h3>
+                        <div id="social-links" class="grid grid-cols-2 gap-3">
+                            <a href="https://www.instagram.com/denysjacksonn/" target="_blank" rel="noopener" class="social-link" data-social="instagram">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                            <a href="https://www.facebook.com/denysjacksonrj" target="_blank" rel="noopener" class="social-link" data-social="facebook">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                            <a href="https://www.youtube.com/@DenysJackson/videos" target="_blank" rel="noopener" class="social-link" data-social="youtube">
+                                <i class="fab fa-youtube"></i> YouTube
+                            </a>
+                            <a href="https://www.tiktok.com/@eudenysjackson" target="_blank" rel="noopener" class="social-link" data-social="tiktok">
+                                <i class="fab fa-tiktok"></i> TikTok
+                            </a>
+                            <a href="https://www.threads.com/@denysjacksonn" target="_blank" rel="noopener" class="social-link" data-social="threads">
+                                <i class="fab fa-threads"></i> Threads
+                            </a>
+                            <a href="https://sandwiche.me/denysjackson" target="_blank" rel="noopener" class="social-link" data-social="sandwiche">
+                                <i class="fas fa-link"></i> Sandwiche
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer pt-4 pb-4">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400">
+            <p>&copy; <span id="current-year"></span> Criado por Denys Jackson</p>
+            <p class="mt-1">CNPJ 55.278.379/0001-98</p>
+        </div>
+    </footer>
+
+    <!-- Back to top -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-dj-indigo text-white shadow-lg flex items-center justify-center hover:bg-dj-indigo/80">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+    </button>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

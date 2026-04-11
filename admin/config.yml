@@ -1,0 +1,143 @@
+# ==============================================
+# Decap CMS Configuration (GitHub Only - PKCE)
+# Denys Jackson - Na Ponta dos Pés
+# ==============================================
+
+backend:
+  name: github
+  repo: eudenysjackson/site           # <-- Ajuste se o repo tiver outro nome
+  branch: main
+  base_url: https://decap-oauth.netlify.app  # OAuth proxy público do Decap (funciona sem Netlify)
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+locale: "pt"
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+
+collections:
+  # ===== CONFIGURAÇÕES DO SITE =====
+  - name: "config"
+    label: "⚙️ Configurações"
+    files:
+      - name: "site"
+        label: "Informações Gerais"
+        file: "content/site.json"
+        format: "json"
+        fields:
+          - { label: "Nome do Site", name: "site_name", widget: "string", default: "Denys Jackson - Na Ponta dos Pés" }
+          - { label: "Slogan", name: "tagline", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Telefone", name: "phone", widget: "string" }
+          - { label: "CNPJ", name: "cnpj", widget: "string" }
+          - label: "Imagem Hero (fundo da capa)"
+            name: "hero_image"
+            widget: "image"
+            required: false
+            hint: "Imagem de fundo da seção principal. Recomendado: 1920x1080px"
+          - label: "Redes Sociais"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "Instagram (URL completa)", name: "instagram", widget: "string", required: false }
+              - { label: "Facebook (URL completa)", name: "facebook", widget: "string", required: false }
+              - { label: "YouTube (URL completa)", name: "youtube", widget: "string", required: false }
+              - { label: "TikTok (URL completa)", name: "tiktok", widget: "string", required: false }
+              - { label: "Threads (URL completa)", name: "threads", widget: "string", required: false }
+              - { label: "Sandwiche (URL completa)", name: "sandwiche", widget: "string", required: false }
+
+  # ===== SOBRE =====
+  - name: "about"
+    label: "📖 Sobre"
+    files:
+      - name: "about"
+        label: "Conteúdo da Página Sobre"
+        file: "content/about.json"
+        format: "json"
+        fields:
+          - label: "Foto Principal"
+            name: "main_photo"
+            widget: "image"
+            required: false
+            hint: "Foto que aparece na seção Sobre. Recomendado: 600x800px"
+          - { label: "Biografia (Português)", name: "bio_pt", widget: "text", hint: "Separe parágrafos com Enter" }
+          - { label: "Biografia (English)", name: "bio_en", widget: "text", required: false }
+          - { label: "Biografia (Español)", name: "bio_es", widget: "text", required: false }
+          - { label: "Missão (PT)", name: "mission_pt", widget: "text" }
+          - { label: "Missão (EN)", name: "mission_en", widget: "text", required: false }
+          - { label: "Missão (ES)", name: "mission_es", widget: "text", required: false }
+          - { label: "Objetivo (PT)", name: "objective_pt", widget: "text" }
+          - { label: "Objetivo (EN)", name: "objective_en", widget: "text", required: false }
+          - { label: "Objetivo (ES)", name: "objective_es", widget: "text", required: false }
+          - { label: "Comunidade (PT)", name: "community_pt", widget: "text" }
+          - { label: "Comunidade (EN)", name: "community_en", widget: "text", required: false }
+          - { label: "Comunidade (ES)", name: "community_es", widget: "text", required: false }
+
+  # ===== AGENDA DE SHOWS =====
+  - name: "shows"
+    label: "🎤 Agenda"
+    files:
+      - name: "shows"
+        label: "Shows"
+        file: "content/shows.json"
+        format: "json"
+        fields:
+          - label: "Shows"
+            name: "shows"
+            widget: "list"
+            summary: "{{fields.venue}} - {{fields.city}} ({{fields.date}})"
+            fields:
+              - { label: "Data", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+              - { label: "Horário", name: "time", widget: "string", hint: "Ex: 20:00", required: false }
+              - { label: "Local", name: "venue", widget: "string", hint: "Nome do teatro/casa de show" }
+              - { label: "Cidade", name: "city", widget: "string", hint: "Ex: Rio de Janeiro, RJ" }
+              - { label: "Link p/ Ingresso", name: "ticket_url", widget: "string", required: false }
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                options:
+                  - { label: "✅ Confirmado", value: "confirmado" }
+                  - { label: "🔴 Esgotado", value: "esgotado" }
+                  - { label: "❌ Cancelado", value: "cancelado" }
+                default: "confirmado"
+
+  # ===== GALERIA DE FOTOS =====
+  - name: "gallery"
+    label: "📸 Galeria"
+    files:
+      - name: "gallery"
+        label: "Fotos"
+        file: "content/gallery.json"
+        format: "json"
+        fields:
+          - label: "Fotos"
+            name: "photos"
+            widget: "list"
+            summary: "{{fields.caption}}"
+            fields:
+              - { label: "Imagem", name: "image", widget: "image" }
+              - { label: "Legenda", name: "caption", widget: "string", required: false }
+
+  # ===== VÍDEOS =====
+  - name: "videos"
+    label: "🎬 Vídeos"
+    files:
+      - name: "videos"
+        label: "Vídeos"
+        file: "content/videos.json"
+        format: "json"
+        fields:
+          - label: "Vídeos"
+            name: "videos"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Título", name: "title", widget: "string" }
+              - label: "ID do YouTube"
+                name: "youtube_id"
+                widget: "string"
+                hint: "Apenas o ID. Ex: se a URL é youtube.com/watch?v=dQw4w9WgXcQ, cole apenas 'dQw4w9WgXcQ'"
+              - { label: "Descrição", name: "description", widget: "text", required: false }

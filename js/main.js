@@ -1,0 +1,474 @@
+/* ============================================
+   Main JavaScript
+   Denys Jackson - Na Ponta dos Pés
+   ============================================ */
+
+document.addEventListener('DOMContentLoaded', () => {
+    initLanguage();
+    initNavigation();
+    initMobileMenu();
+    initScrollAnimations();
+    initMediaTabs();
+    initLightbox();
+    initBackToTop();
+    initCustomSelect();
+    initContactForm();
+    setCurrentYear();
+    loadContent();
+});
+
+/* ===== CONTENT LOADING ===== */
+
+async function loadContent() {
+    await Promise.all([
+        loadSiteConfig(),
+        loadShows(),
+        loadGallery(),
+        loadVideos(),
+        loadAbout()
+    ]);
+}
+
+async function fetchJSON(url) {
+    try {
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        return await res.json();
+    } catch {
+        return null;
+    }
+}
+
+// Site config (social links, hero image)
+async function loadSiteConfig() {
+    const data = await fetchJSON('content/site.json');
+    if (!data) return;
+
+    // Set hero background image if available
+    if (data.hero_image) {
+        const heroBg = document.getElementById('hero-bg');
+        heroBg.style.backgroundImage = `url('${data.hero_image}')`;
+        heroBg.classList.add('has-image');
+    }
+
+    // Set social links
+    if (data.social) {
+        document.querySelectorAll('[data-social]').forEach(el => {
+            const platform = el.dataset.social;
+            if (data.social[platform]) {
+                el.href = data.social[platform];
+            }
+        });
+    }
+}
+
+// About content
+async function loadAbout() {
+    const data = await fetchJSON('content/about.json');
+    if (!data) return;
+
+    // Bio
+    const lang = currentLang;
+    if (data['bio_' + lang]) {
+        const bioEl = document.getElementById('about-bio');
+        if (bioEl) {
+            const paragraphs = data['bio_' + lang].split('\n').filter(p => p.trim());
+            bioEl.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+        }
+    }
+
+    // Mission
+    const missionKey = 'mission_' + lang;
+    if (data[missionKey]) {
+        const el = document.getElementById('about-mission');
+        if (el) el.textContent = data[missionKey];
+    }
+
+    // Objective
+    const objectiveKey = 'objective_' + lang;
+    if (data[objectiveKey]) {
+        const el = document.getElementById('about-objective');
+        if (el) el.textContent = data[objectiveKey];
+    }
+
+    // Community
+    const communityKey = 'community_' + lang;
+    if (data[communityKey]) {
+        const el = document.getElementById('about-community');
+        if (el) el.textContent = data[communityKey];
+    }
+
+    // Photo
+    if (data.main_photo) {
+        const photoEl = document.getElementById('about-photo');
+        if (photoEl) {
+            photoEl.innerHTML = `<img src="${data.main_photo}" alt="Denys Jackson" class="w-full h-full object-cover">`;
+        }
+    }
+}
+
+// Shows
+let showsData = [];
+
+async function loadShows() {
+    const data = await fetchJSON('content/shows.json');
+    if (!data || !data.shows) return;
+    showsData = data.shows;
+    renderShows();
+}
+
+function renderShows() {
+    const container = document.getElementById('shows-list');
+    const emptyState = document.getElementById('shows-empty');
+    if (!container) return;
+
+    // Filter future shows and sort by date
+    const now = new Date();
+    const futureShows = showsData
+        .filter(s => new Date(s.date) >= now || s.status === 'confirmado')
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    if (futureShows.length === 0) {
+        container.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        return;
+    }
+
+    emptyState.classList.add('hidden');
+    container.classList.remove('hidden');
+
+    container.innerHTML = futureShows.map(show => {
+        const date = new Date(show.date + 'T12:00:00');
+        const day = date.getDate();
+        const month = t('month.' + date.getMonth());
+
+        const statusLabels = {
+            confirmado: t('schedule.buy_ticket'),
+            esgotado: 'Esgotado',
+            cancelado: 'Cancelado'
+        };
+
+        const ticketBtn = show.status === 'confirmado' && show.ticket_url
+            ? `<a href="${encodeURI(show.ticket_url)}" target="_blank" rel="noopener" class="btn-primary text-sm py-2 px-4">${statusLabels.confirmado}</a>`
+            : `<span class="show-status ${show.status}">${statusLabels[show.status] || show.status}</span>`;
+
+        return `
+            <div class="show-card fade-in visible">
+                <div class="show-date">
+                    <span class="day">${day}</span>
+                    <span class="month">${month}</span>
+                </div>
+                <div class="show-info">
+                    <div class="venue">${escapeHTML(show.venue)}</div>
+                    <div class="city">${escapeHTML(show.city)}</div>
+                    ${show.time ? `<div class="time">🕐 ${escapeHTML(show.time)}</div>` : ''}
+                </div>
+                ${ticketBtn}
+            </div>
+        `;
+    }).join('');
+}
+
+// Gallery
+async function loadGallery() {
+    const data = await fetchJSON('content/gallery.json');
+    if (!data || !data.photos || data.photos.length === 0) return;
+
+    const grid = document.getElementById('gallery-grid');
+    const emptyState = document.getElementById('gallery-empty');
+    if (!grid) return;
+
+    emptyState.classList.add('hidden');
+
+    grid.innerHTML = data.photos.map((photo, i) => `
+        <div class="gallery-item" data-index="${i}" data-src="${photo.image}" data-caption="${escapeHTML(photo.caption || '')}">
+            <img src="${photo.image}" alt="${escapeHTML(photo.caption || 'Foto')}" loading="lazy">
+            <div class="overlay">
+                <span>${escapeHTML(photo.caption || '')}</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Videos
+async function loadVideos() {
+    const data = await fetchJSON('content/videos.json');
+    if (!data || !data.videos || data.videos.length === 0) return;
+
+    const grid = document.getElementById('videos-grid');
+    const emptyState = document.getElementById('videos-empty');
+    if (!grid) return;
+
+    emptyState.classList.add('hidden');
+
+    grid.innerHTML = data.videos.map(video => `
+        <div class="video-card">
+            <div class="video-embed">
+                <iframe
+                    src="https://www.youtube.com/embed/${encodeURIComponent(video.youtube_id)}"
+                    title="${escapeHTML(video.title)}"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                ></iframe>
+            </div>
+            <div class="video-info">
+                <h4>${escapeHTML(video.title)}</h4>
+                ${video.description ? `<p>${escapeHTML(video.description)}</p>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+/* ===== NAVIGATION ===== */
+
+function initNavigation() {
+    const navbar = document.getElementById('navbar');
+
+    // Scroll effect
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+
+    // Active link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    link.classList.toggle('active', href === '#' + id || (id === 'home' && href === '#home'));
+                });
+            }
+        });
+    }, { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Language buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
+}
+
+/* ===== MOBILE MENU ===== */
+
+function initMobileMenu() {
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('menu-icon-open');
+    const iconClose = document.getElementById('menu-icon-close');
+
+    toggle.addEventListener('click', () => {
+        const isOpen = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        iconOpen.classList.toggle('hidden', !isOpen);
+        iconClose.classList.toggle('hidden', isOpen);
+    });
+
+    // Close on link click
+    menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            menu.classList.add('hidden');
+            iconOpen.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+        });
+    });
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+
+function initScrollAnimations() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    // Observe fade-in elements
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Also observe glass cards and show cards
+    document.querySelectorAll('.glass-card, .glass-card-light, .media-logo-card').forEach(el => {
+        el.classList.add('fade-in');
+        observer.observe(el);
+    });
+}
+
+/* ===== MEDIA TABS ===== */
+
+function initMediaTabs() {
+    document.querySelectorAll('.media-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+
+            // Update tab buttons
+            document.querySelectorAll('.media-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Show/hide content
+            document.querySelectorAll('.media-tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            const targetContent = document.getElementById('tab-' + target);
+            if (targetContent) targetContent.classList.remove('hidden');
+        });
+    });
+}
+
+/* ===== LIGHTBOX ===== */
+
+function initLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    // Open lightbox on gallery item click (delegated)
+    document.getElementById('gallery-grid')?.addEventListener('click', e => {
+        const item = e.target.closest('.gallery-item');
+        if (!item) return;
+
+        lightboxImg.src = item.dataset.src;
+        lightboxCaption.textContent = item.dataset.caption || '';
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close lightbox
+    function closeLightbox() {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        lightboxImg.src = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => {
+        if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+    });
+}
+
+/* ===== BACK TO TOP ===== */
+
+function initBackToTop() {
+    const btn = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+        btn.classList.toggle('visible', window.scrollY > 500);
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+/* ===== CUSTOM SELECT ===== */
+
+function initCustomSelect() {
+    var trigger = document.getElementById('custom-select');
+    var dropdown = document.getElementById('select-dropdown');
+    var label = document.getElementById('select-label');
+    var hiddenInput = document.getElementById('subject-value');
+    var arrow = document.getElementById('select-arrow');
+    if (!trigger || !dropdown) return;
+
+    trigger.addEventListener('click', function() {
+        var isOpen = !dropdown.classList.contains('hidden');
+        if (isOpen) {
+            dropdown.classList.add('hidden');
+            trigger.classList.remove('open');
+        } else {
+            dropdown.classList.remove('hidden');
+            trigger.classList.add('open');
+        }
+    });
+
+    var options = dropdown.querySelectorAll('.select-option');
+    options.forEach(function(opt) {
+        opt.addEventListener('click', function() {
+            options.forEach(function(o) { o.classList.remove('active'); });
+            opt.classList.add('active');
+            label.textContent = opt.textContent;
+            hiddenInput.value = opt.dataset.value;
+            dropdown.classList.add('hidden');
+            trigger.classList.remove('open');
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('hidden');
+            trigger.classList.remove('open');
+        }
+    });
+}
+
+/* ===== CONTACT FORM ===== */
+
+function initContactForm() {
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        // Basic validation
+        if (!formData.get('name') || !formData.get('email') || !formData.get('message')) return;
+
+        const btn = form.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+
+        try {
+            const res = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (res.ok) {
+                status.textContent = t('contact.success') || 'Mensagem enviada com sucesso!';
+                status.className = 'text-center text-sm mt-4 text-green-600';
+                status.classList.remove('hidden');
+                form.reset();
+            } else {
+                throw new Error('Erro');
+            }
+        } catch {
+            // Fallback: mailto
+            const data = Object.fromEntries(formData);
+            const subject = encodeURIComponent('[Site] ' + (data.subject || 'Contato') + ' - ' + data.name + ' ' + (data.lastname || ''));
+            const body = encodeURIComponent('Nome: ' + data.name + ' ' + (data.lastname || '') + '\nEmail: ' + data.email + '\nAssunto: ' + (data.subject || 'N/A') + '\n\nMensagem:\n' + data.message);
+            window.location.href = 'mailto:denysjackson@denysjackson.com.br?subject=' + subject + '&body=' + body;
+        }
+
+        btn.disabled = false;
+        btn.textContent = t('contact.send') || 'Enviar mensagem';
+        setTimeout(() => status.classList.add('hidden'), 5000);
+    });
+}
+
+/* ===== UTILITIES ===== */
+
+function setCurrentYear() {
+    const el = document.getElementById('current-year');
+    if (el) el.textContent = new Date().getFullYear();
+}
+
+function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
