@@ -1,5 +1,5 @@
 # ==============================================
-# Decap CMS Configuration (GitHub Only - PKCE)
+# Sveltia CMS Configuration (GitHub + Token Auth)
 # Denys Jackson - Na Ponta dos Pés
 # ==============================================
 
@@ -7,8 +7,6 @@ backend:
   name: github
   repo: eudenysjackson/site
   branch: main
-  auth_type: pkce
-  app_id: Ov23liN99RuYmQVYRlM9
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
