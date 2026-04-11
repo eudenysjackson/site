@@ -2,7 +2,8 @@
   "photos": [
     {
       "image": "/images/uploads/IMG_6826.jpg",
-      "caption": ""
+      "caption": "",
+      "position": "49% 100%"
     },
     {
       "image": "/images/uploads/IMG_9230.jpg",
