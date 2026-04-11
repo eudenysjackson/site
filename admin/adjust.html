@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajustar Posição das Imagens</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: #f0f2f5; color: #1f2937; }
+        .header { background: #1e293b; color: white; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+        .header h1 { font-size: 1.1rem; font-weight: 600; }
+        .header a { color: #93c5fd; text-decoration: none; font-size: 0.85rem; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .section { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: #4338ca; }
+        .preview-box { position: relative; width: 100%; border-radius: 8px; overflow: hidden; background: #1a1040; margin-bottom: 1rem; }
+        .preview-box.hero { aspect-ratio: 16/9; }
+        .preview-box.hero-mobile { aspect-ratio: 9/16; max-width: 300px; margin: 0 auto 1rem; }
+        .preview-box.gallery { aspect-ratio: 1/1; max-width: 300px; }
+        .preview-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .controls { display: flex; flex-direction: column; gap: 0.75rem; }
+        .control-row { display: flex; align-items: center; gap: 1rem; }
+        .control-row label { min-width: 120px; font-size: 0.85rem; font-weight: 600; color: #64748b; }
+        .control-row input[type="range"] { flex: 1; accent-color: #4338ca; height: 6px; }
+        .control-row .value { min-width: 45px; text-align: center; font-size: 0.85rem; font-weight: 700; color: #4338ca; background: #eef2ff; padding: 4px 8px; border-radius: 6px; }
+        .save-btn { background: #4338ca; color: white; border: none; padding: 0.75rem 2rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 1rem; }
+        .save-btn:hover { background: #3730a3; }
+        .save-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        .status { font-size: 0.8rem; margin-top: 0.5rem; min-height: 1.2em; }
+        .status.ok { color: #16a34a; }
+        .status.err { color: #dc2626; }
+        .loading { text-align: center; padding: 3rem; color: #94a3b8; }
+        .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .tab { padding: 0.5rem 1.25rem; border-radius: 8px; background: #e2e8f0; cursor: pointer; font-size: 0.85rem; font-weight: 600; border: none; }
+        .tab.active { background: #4338ca; color: white; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .gallery-thumb { border-radius: 8px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: border-color 0.2s; aspect-ratio: 1; }
+        .gallery-thumb.active { border-color: #4338ca; }
+        .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .no-img { display: flex; align-items: center; justify-content: center; height: 200px; color: #94a3b8; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Ajustar Posição das Imagens</h1>
+        <a href="/admin/">← Voltar ao Admin</a>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('hero')">Hero Desktop</button>
+            <button class="tab" onclick="showTab('mobile')">Hero Mobile</button>
+            <button class="tab" onclick="showTab('gallery')">Galeria</button>
+        </div>
+
+        <!-- HERO DESKTOP -->
+        <div id="tab-hero" class="section">
+            <h2>Imagem Hero — Desktop</h2>
+            <div class="preview-box hero" id="hero-preview"><div class="no-img">Nenhuma imagem configurada</div></div>
+            <div class="controls">
+                <div class="control-row">
+                    <label>← Horizontal →</label>
+                    <input type="range" id="hero-x" min="0" max="100" value="50" oninput="updateHero()">
+                    <span class="value" id="hero-x-val">50%</span>
+                </div>
+                <div class="control-row">
+                    <label>↑ Vertical ↓</label>
+                    <input type="range" id="hero-y" min="0" max="100" value="0" oninput="updateHero()">
+                    <span class="value" id="hero-y-val">0%</span>
+                </div>
+            </div>
+            <button class="save-btn" onclick="saveAll()" id="save-hero">Salvar posições</button>
+            <div class="status" id="status-hero"></div>
+        </div>
+
+        <!-- HERO MOBILE -->
+        <div id="tab-mobile" class="section" style="display:none">
+            <h2>Imagem Hero — Mobile</h2>
+            <div class="preview-box hero-mobile" id="mobile-preview"><div class="no-img">Nenhuma imagem configurada</div></div>
+            <div class="controls">
+                <div class="control-row">
+                    <label>← Horizontal →</label>
+                    <input type="range" id="mobile-x" min="0" max="100" value="50" oninput="updateMobile()">
+                    <span class="value" id="mobile-x-val">50%</span>
+                </div>
+                <div class="control-row">
+                    <label>↑ Vertical ↓</label>
+                    <input type="range" id="mobile-y" min="0" max="100" value="50" oninput="updateMobile()">
+                    <span class="value" id="mobile-y-val">50%</span>
+                </div>
+            </div>
+            <button class="save-btn" onclick="saveAll()">Salvar posições</button>
+            <div class="status" id="status-mobile"></div>
+        </div>
+
+        <!-- GALLERY -->
+        <div id="tab-gallery" class="section" style="display:none">
+            <h2>Fotos da Galeria</h2>
+            <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Clique em uma foto para ajustar a posição.</p>
+            <div class="gallery-grid" id="gallery-grid"></div>
+            <div id="gallery-editor" style="display:none">
+                <div class="preview-box gallery" id="gallery-preview"></div>
+                <div class="controls">
+                    <div class="control-row">
+                        <label>← Horizontal →</label>
+                        <input type="range" id="gallery-x" min="0" max="100" value="50" oninput="updateGallery()">
+                        <span class="value" id="gallery-x-val">50%</span>
+                    </div>
+                    <div class="control-row">
+                        <label>↑ Vertical ↓</label>
+                        <input type="range" id="gallery-y" min="0" max="100" value="50" oninput="updateGallery()">
+                        <span class="value" id="gallery-y-val">50%</span>
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveGallery()">Salvar posição da foto</button>
+                <div class="status" id="status-gallery"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var REPO = 'eudenysjackson/site';
+    var BRANCH = 'main';
+    var token = '';
+    var siteData = null;
+    var galleryData = null;
+    var siteSha = '';
+    var gallerySha = '';
+    var selectedPhoto = -1;
+
+    // Get token from Sveltia CMS or prompt
+    function getToken() {
+        // Try Sveltia CMS stored token
+        try {
+            var keys = Object.keys(localStorage);
+            for (var i = 0; i < keys.length; i++) {
+                var val = localStorage.getItem(keys[i]);
+                if (val && val.startsWith('ghp_')) return val;
+                if (val && val.startsWith('github_pat_')) return val;
+                try {
+                    var parsed = JSON.parse(val);
+                    if (parsed && parsed.token) return parsed.token;
+                    if (parsed && parsed.access_token) return parsed.access_token;
+                } catch(e) {}
+            }
+        } catch(e) {}
+        return prompt('Cole seu token do GitHub (ghp_...):');
+    }
+
+    async function ghFetch(path) {
+        var res = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + path + '?ref=' + BRANCH, {
+            headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (!res.ok) throw new Error('GitHub API error: ' + res.status);
+        return await res.json();
+    }
+
+    async function ghSave(path, content, sha, message) {
+        var res = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + path, {
+            method: 'PUT',
+            headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message, content: btoa(unescape(encodeURIComponent(content))), sha: sha, branch: BRANCH })
+        });
+        if (!res.ok) throw new Error('Erro ao salvar: ' + res.status);
+        return await res.json();
+    }
+
+    function fixImg(p) {
+        if (!p) return '';
+        return p.startsWith('/') ? p.substring(1) : p;
+    }
+
+    function parsePos(pos) {
+        if (!pos) return [50, 50];
+        var parts = pos.replace(/%/g, '').trim().split(/\s+/);
+        var x = parseInt(parts[0]) || 50;
+        var y = parseInt(parts[1]) || 50;
+        return [x, y];
+    }
+
+    async function init() {
+        token = getToken();
+        if (!token) { document.querySelector('.container').innerHTML = '<div class="loading">Token necessário para continuar.</div>'; return; }
+
+        try {
+            // Load site.json
+            var siteFile = await ghFetch('content/site.json');
+            siteSha = siteFile.sha;
+            siteData = JSON.parse(decodeURIComponent(escape(atob(siteFile.content.replace(/\n/g, '')))));
+
+            // Load gallery.json
+            var galleryFile = await ghFetch('content/gallery.json');
+            gallerySha = galleryFile.sha;
+            galleryData = JSON.parse(decodeURIComponent(escape(atob(galleryFile.content.replace(/\n/g, '')))));
+
+            renderHero();
+            renderMobile();
+            renderGalleryGrid();
+        } catch(e) {
+            document.querySelector('.container').innerHTML = '<div class="loading">Erro: ' + e.message + '</div>';
+        }
+    }
+
+    function renderHero() {
+        var img = fixImg(siteData.hero_image);
+        var box = document.getElementById('hero-preview');
+        if (img) {
+            box.innerHTML = '<img id="hero-img" src="' + img + '">';
+            var pos = parsePos(siteData.hero_position);
+            document.getElementById('hero-x').value = pos[0];
+            document.getElementById('hero-y').value = pos[1];
+            updateHero();
+        }
+    }
+
+    function renderMobile() {
+        var img = fixImg(siteData.hero_image_mobile || siteData.hero_image);
+        var box = document.getElementById('mobile-preview');
+        if (img) {
+            box.innerHTML = '<img id="mobile-img" src="' + img + '">';
+            var pos = parsePos(siteData.hero_position_mobile);
+            document.getElementById('mobile-x').value = pos[0];
+            document.getElementById('mobile-y').value = pos[1];
+            updateMobile();
+        }
+    }
+
+    function renderGalleryGrid() {
+        var grid = document.getElementById('gallery-grid');
+        if (!galleryData || !galleryData.photos || !galleryData.photos.length) {
+            grid.innerHTML = '<div class="no-img">Nenhuma foto na galeria</div>';
+            return;
+        }
+        grid.innerHTML = galleryData.photos.map(function(p, i) {
+            return '<div class="gallery-thumb" onclick="selectPhoto(' + i + ')" id="gthumb-' + i + '"><img src="' + fixImg(p.image) + '"></div>';
+        }).join('');
+    }
+
+    function selectPhoto(i) {
+        selectedPhoto = i;
+        document.querySelectorAll('.gallery-thumb').forEach(function(el) { el.classList.remove('active'); });
+        document.getElementById('gthumb-' + i).classList.add('active');
+        document.getElementById('gallery-editor').style.display = 'block';
+        var photo = galleryData.photos[i];
+        var box = document.getElementById('gallery-preview');
+        box.innerHTML = '<img id="gallery-img" src="' + fixImg(photo.image) + '">';
+        var pos = parsePos(photo.position);
+        document.getElementById('gallery-x').value = pos[0];
+        document.getElementById('gallery-y').value = pos[1];
+        updateGallery();
+    }
+
+    function updateHero() {
+        var x = document.getElementById('hero-x').value;
+        var y = document.getElementById('hero-y').value;
+        document.getElementById('hero-x-val').textContent = x + '%';
+        document.getElementById('hero-y-val').textContent = y + '%';
+        var img = document.getElementById('hero-img');
+        if (img) img.style.objectPosition = x + '% ' + y + '%';
+    }
+
+    function updateMobile() {
+        var x = document.getElementById('mobile-x').value;
+        var y = document.getElementById('mobile-y').value;
+        document.getElementById('mobile-x-val').textContent = x + '%';
+        document.getElementById('mobile-y-val').textContent = y + '%';
+        var img = document.getElementById('mobile-img');
+        if (img) img.style.objectPosition = x + '% ' + y + '%';
+    }
+
+    function updateGallery() {
+        var x = document.getElementById('gallery-x').value;
+        var y = document.getElementById('gallery-y').value;
+        document.getElementById('gallery-x-val').textContent = x + '%';
+        document.getElementById('gallery-y-val').textContent = y + '%';
+        var img = document.getElementById('gallery-img');
+        if (img) img.style.objectPosition = x + '% ' + y + '%';
+    }
+
+    async function saveAll() {
+        var btn = document.querySelector('.save-btn');
+        btn.disabled = true; btn.textContent = 'Salvando...';
+        try {
+            siteData.hero_position = document.getElementById('hero-x').value + '% ' + document.getElementById('hero-y').value + '%';
+            siteData.hero_position_mobile = document.getElementById('mobile-x').value + '% ' + document.getElementById('mobile-y').value + '%';
+            var result = await ghSave('content/site.json', JSON.stringify(siteData, null, 2) + '\n', siteSha, 'Ajuste posição hero via painel visual');
+            siteSha = result.content.sha;
+            setStatus('ok', 'Salvo com sucesso!');
+        } catch(e) {
+            setStatus('err', e.message);
+        }
+        btn.disabled = false; btn.textContent = 'Salvar posições';
+    }
+
+    async function saveGallery() {
+        if (selectedPhoto < 0) return;
+        var btn = document.querySelectorAll('.save-btn')[2];
+        btn.disabled = true; btn.textContent = 'Salvando...';
+        try {
+            galleryData.photos[selectedPhoto].position = document.getElementById('gallery-x').value + '% ' + document.getElementById('gallery-y').value + '%';
+            var result = await ghSave('content/gallery.json', JSON.stringify(galleryData, null, 2) + '\n', gallerySha, 'Ajuste posição foto galeria via painel visual');
+            gallerySha = result.content.sha;
+            setStatus('ok', 'Foto salva!', 'status-gallery');
+        } catch(e) {
+            setStatus('err', e.message, 'status-gallery');
+        }
+        btn.disabled = false; btn.textContent = 'Salvar posição da foto';
+    }
+
+    function setStatus(type, msg, id) {
+        var els = ['status-hero', 'status-mobile', 'status-gallery'];
+        if (id) els = [id];
+        els.forEach(function(eid) {
+            var el = document.getElementById(eid);
+            if (el) { el.textContent = msg; el.className = 'status ' + type; }
+        });
+        setTimeout(function() { els.forEach(function(eid) { var el = document.getElementById(eid); if (el) el.textContent = ''; }); }, 3000);
+    }
+
+    function showTab(name) {
+        ['hero', 'mobile', 'gallery'].forEach(function(t) {
+            document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+        });
+        document.querySelectorAll('.tab').forEach(function(el) {
+            el.classList.toggle('active', el.textContent.toLowerCase().indexOf(name) >= 0 || (name === 'mobile' && el.textContent.indexOf('Mobile') >= 0) || (name === 'hero' && el.textContent.indexOf('Desktop') >= 0) || (name === 'gallery' && el.textContent.indexOf('Galeria') >= 0));
+        });
+    }
+
+    init();
+    </script>
+</body>
+</html>
