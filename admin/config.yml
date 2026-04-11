@@ -39,18 +39,10 @@ collections:
             hint: "Imagem de fundo no computador. Recomendado: 1920x1080px"
           - label: "Posição da Imagem Desktop"
             name: "hero_position"
-            widget: "select"
+            widget: "string"
             required: false
-            default: "center center"
-            hint: "Onde a foto fica centralizada no computador"
-            options:
-              - { label: "Centro", value: "center center" }
-              - { label: "Centro Topo", value: "center top" }
-              - { label: "Centro Base", value: "center bottom" }
-              - { label: "Esquerda Centro", value: "left center" }
-              - { label: "Direita Centro", value: "right center" }
-              - { label: "Esquerda Topo", value: "left top" }
-              - { label: "Direita Topo", value: "right top" }
+            default: "50% 0%"
+            hint: "Formato: X% Y%. Horizontal (0%=esquerda, 50%=centro, 100%=direita) Vertical (0%=topo, 50%=centro, 100%=base). Ex: 50% 20%"
           - label: "Imagem Hero Mobile (celular)"
             name: "hero_image_mobile"
             widget: "image"
@@ -58,18 +50,10 @@ collections:
             hint: "Imagem de fundo no celular. Se vazio, usa a mesma do desktop. Recomendado: 1080x1920px"
           - label: "Posição da Imagem Mobile"
             name: "hero_position_mobile"
-            widget: "select"
+            widget: "string"
             required: false
-            default: "center center"
-            hint: "Onde a foto fica centralizada no celular"
-            options:
-              - { label: "Centro", value: "center center" }
-              - { label: "Centro Topo", value: "center top" }
-              - { label: "Centro Base", value: "center bottom" }
-              - { label: "Esquerda Centro", value: "left center" }
-              - { label: "Direita Centro", value: "right center" }
-              - { label: "Esquerda Topo", value: "left top" }
-              - { label: "Direita Topo", value: "right top" }
+            default: "50% 0%"
+            hint: "Formato: X% Y%. Horizontal (0%=esquerda, 50%=centro, 100%=direita) Vertical (0%=topo, 50%=centro, 100%=base). Ex: 50% 30%"
           - label: "Redes Sociais"
             name: "social"
             widget: "object"

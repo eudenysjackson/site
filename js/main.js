@@ -47,16 +47,19 @@ async function fetchJSON(path) {
     return null;
 }
 
-// Fix CMS absolute paths and serve images from GitHub raw (instant update)
+// Fix CMS absolute paths (/images/... → images/...)
 function fixPath(p) {
     if (!p) return p;
-    // Remove leading slash
     var clean = p.startsWith('/') ? p.substring(1) : p;
-    // Images from uploads → load from GitHub raw (instant, no deploy wait)
-    if (clean.startsWith('images/uploads/')) {
-        return GITHUB_RAW + clean;
-    }
     return clean;
+}
+
+// Fix path for images that need instant update (bust cache)
+function fixImagePath(p) {
+    if (!p) return p;
+    var clean = p.startsWith('/') ? p.substring(1) : p;
+    // Add cache-buster to force reload after CMS update
+    return clean + '?t=' + Date.now();
 }
 
 // Site config (social links, hero image)
@@ -70,7 +73,7 @@ async function loadSiteConfig() {
         const isMobile = window.innerWidth <= 768;
         const img = (isMobile && data.hero_image_mobile) ? data.hero_image_mobile : (data.hero_image || data.hero_image_mobile);
         const pos = (isMobile && data.hero_position_mobile) ? data.hero_position_mobile : (data.hero_position || 'center center');
-        heroBg.style.backgroundImage = `url('${fixPath(img)}')`;
+        heroBg.style.backgroundImage = `url('${fixImagePath(img)}')`;
         heroBg.style.backgroundPosition = pos;
         heroBg.classList.add('has-image');
     }
