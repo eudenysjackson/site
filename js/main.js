@@ -67,6 +67,12 @@ async function loadSiteConfig() {
     const data = await fetchJSON('content/site.json');
     if (!data) return;
 
+    // Set favicon
+    if (data.favicon) {
+        var fav = document.getElementById('favicon');
+        if (fav) fav.href = fixPath(data.favicon);
+    }
+
     // Set hero background image if available
     if (data.hero_image || data.hero_image_mobile) {
         const heroBg = document.getElementById('hero-bg');
