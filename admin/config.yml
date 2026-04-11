@@ -29,6 +29,11 @@ collections:
         fields:
           - { label: "Nome do Site", name: "site_name", widget: "string", default: "Denys Jackson - Na Ponta dos Pés" }
           - { label: "Slogan", name: "tagline", widget: "string" }
+          - label: "Favicon"
+            name: "favicon"
+            widget: "image"
+            required: false
+            hint: "Ícone da aba do navegador. Recomendado: PNG ou ICO, 32x32 ou 64x64px"
           - { label: "Email", name: "email", widget: "string" }
           - { label: "Telefone", name: "phone", widget: "string" }
           - { label: "CNPJ", name: "cnpj", widget: "string" }
