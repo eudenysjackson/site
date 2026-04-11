@@ -1,3 +1,16 @@
 {
-    "photos": []
+  "photos": [
+    {
+      "image": "/images/uploads/IMG_6826.jpg",
+      "caption": ""
+    },
+    {
+      "image": "/images/uploads/IMG_9608.jpg",
+      "caption": ""
+    },
+    {
+      "image": "/images/uploads/18475856722022700.jpg",
+      "caption": ""
+    }
+  ]
 }
