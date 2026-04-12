@@ -87,30 +87,34 @@ async function loadSiteConfig() {
     // Set hero texts from CMS
     if (data.hero_text) {
         var ht = data.hero_text;
-        // Title: update or hide
+        // Title: show if has content
         var titleEl = document.getElementById('hero-title');
-        if (titleEl) {
-            if (ht.title) { titleEl.textContent = ht.title; } else { titleEl.style.display = 'none'; }
+        if (titleEl && ht.title) {
+            titleEl.textContent = ht.title;
+            titleEl.style.display = '';
         }
-        // Subtitle: update or hide
+        // Subtitle: show if has content
         var subtitleEl = document.getElementById('hero-subtitle');
-        if (subtitleEl) {
-            if (ht.subtitle) { subtitleEl.textContent = ht.subtitle; } else { subtitleEl.style.display = 'none'; }
+        if (subtitleEl && ht.subtitle) {
+            subtitleEl.textContent = ht.subtitle;
+            subtitleEl.style.display = '';
         }
-        // Tagline: update or hide
+        // Tagline: show if has content and toggle is on
         var taglineEl = document.getElementById('hero-tagline');
-        if (taglineEl) {
-            if (ht.tagline && ht.show_tagline !== false) { taglineEl.textContent = ht.tagline; } else { taglineEl.style.display = 'none'; }
+        if (taglineEl && ht.tagline && ht.show_tagline !== false) {
+            taglineEl.textContent = ht.tagline;
+            taglineEl.style.display = '';
         }
-        // Description: update or hide
+        // Description: show if has content and toggle is on
         var descEl = document.getElementById('hero-description');
-        if (descEl) {
-            if (ht.description && ht.show_description !== false) { descEl.textContent = ht.description; } else { descEl.style.display = 'none'; }
+        if (descEl && ht.description && ht.show_description !== false) {
+            descEl.textContent = ht.description;
+            descEl.style.display = '';
         }
-        // Buttons: show or hide
-        if (ht.show_buttons === false) {
-            var btnsEl = document.getElementById('hero-buttons');
-            if (btnsEl) btnsEl.style.display = 'none';
+        // Buttons: show if toggle is on
+        var btnsEl = document.getElementById('hero-buttons');
+        if (btnsEl && ht.show_buttons !== false) {
+            btnsEl.style.display = '';
         }
         // Load custom font
         if (ht.font && ht.font !== 'Inter') {
