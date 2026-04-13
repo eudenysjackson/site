@@ -289,6 +289,7 @@ function setLanguage(lang) {
 
     // Re-render dynamic content with new language
     if (typeof loadAbout === 'function') loadAbout();
+    if (typeof loadTribute === 'function') loadTribute();
     if (typeof renderShows === 'function') renderShows();
 }
 

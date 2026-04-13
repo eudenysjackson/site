@@ -1,0 +1,52 @@
+{
+  "cards": [
+    {
+      "title_pt": "Liberdade Criativa",
+      "title_en": "Creative Freedom",
+      "title_es": "Libertad Creativa",
+      "subtitle_pt": "Impacto Emocional",
+      "subtitle_en": "Emotional Impact",
+      "subtitle_es": "Impacto Emocional",
+      "description_pt": "Mais que um tributo, é a imersão total no legado do rei do pop. Decidimos quebrar o protocolo da turnê Dangerous para incluir \"They Don't Care About Us\", um hino de resistência que pulsa no coração dos fãs.",
+      "description_en": "More than a tribute, it's a total immersion in the legacy of the King of Pop. We decided to break the Dangerous tour protocol to include \"They Don't Care About Us\", an anthem of resistance that beats in the hearts of fans.",
+      "description_es": "Más que un tributo, es la inmersión total en el legado del rey del pop. Decidimos romper el protocolo de la gira Dangerous para incluir \"They Don't Care About Us\", un himno de resistencia que late en el corazón de los fans.",
+      "url": "https://www.youtube.com/watch?v=2cI6ZoNTxPA"
+    },
+    {
+      "title_pt": "Efeitos Especiais",
+      "title_en": "Special Effects",
+      "title_es": "Efectos Especiales",
+      "subtitle_pt": "Sombra Chinesa Gigante e o The Lean",
+      "subtitle_en": "Giant Chinese Shadow and The Lean",
+      "subtitle_es": "Sombra China Gigante y The Lean",
+      "description_pt": "No nosso show, replicamos a sombra chinesa gigante das turnês originais e o efeito \"the lean\". A técnica de antigravidade que ainda hoje surpreende quem assiste de perto.",
+      "description_en": "In our show, we replicate the giant Chinese shadow from the original tours and \"the lean\" effect. The anti-gravity technique that still amazes audiences to this day.",
+      "description_es": "En nuestro show, replicamos la sombra china gigante de las giras originales y el efecto \"the lean\". La técnica de antigravedad que aún hoy sorprende a quien lo ve de cerca.",
+      "url": "https://www.youtube.com/watch?v=uNfDsWxDfVc"
+    },
+    {
+      "title_pt": "O Legado",
+      "title_en": "The Legacy",
+      "title_es": "El Legado",
+      "subtitle_pt": "Billie Jean, Thriller, Beat It",
+      "subtitle_en": "Billie Jean, Thriller, Beat It",
+      "subtitle_es": "Billie Jean, Thriller, Beat It",
+      "description_pt": "Os passos e os figurinos que marcaram época ganham vida no palco, desde o moonwalk à parada na ponta do pé que batiza o nosso show.",
+      "description_en": "The steps and costumes that marked an era come to life on stage, from the moonwalk to the toe stand that gives our show its name.",
+      "description_es": "Los pasos y los vestuarios que marcaron época cobran vida en el escenario, desde el moonwalk hasta la parada en la punta del pie que bautiza nuestro show.",
+      "url": "https://www.youtube.com/watch?v=uNfDsWxDfVc"
+    },
+    {
+      "title_pt": "Novidades",
+      "title_en": "What's New",
+      "title_es": "Novedades",
+      "subtitle_pt": "Remember The Time",
+      "subtitle_en": "Remember The Time",
+      "subtitle_es": "Remember The Time",
+      "description_pt": "Tiramos do papel o que ficou apenas nos ensaios. Nosso palco revela o que o público nunca pôde ver ao vivo, transformando músicas como \"Remember The Time\" em uma performance completa.",
+      "description_en": "We brought to life what only existed in rehearsals. Our stage reveals what the audience never got to see live, turning songs like \"Remember The Time\" into a full performance.",
+      "description_es": "Sacamos del papel lo que quedó solo en los ensayos. Nuestro escenario revela lo que el público nunca pudo ver en vivo, transformando canciones como \"Remember The Time\" en una performance completa.",
+      "url": "#midias"
+    }
+  ]
+}

@@ -29,7 +29,8 @@ async function loadContent() {
         loadGallery(),
         loadVideos(),
         loadAbout(),
-        loadSocialProof()
+        loadSocialProof(),
+        loadTribute()
     ]);
 }
 
@@ -137,6 +138,46 @@ async function loadSiteConfig() {
             }
         });
     }
+}
+
+// Tribute cards
+var tributeData = [];
+
+async function loadTribute() {
+    if (!tributeData.length) {
+        var data = await fetchJSON('content/tribute.json');
+        if (!data || !data.cards) return;
+        tributeData = data.cards;
+    }
+    renderTribute();
+}
+
+function renderTribute() {
+    var container = document.getElementById('tribute-cards');
+    if (!container || !tributeData.length) return;
+
+    var lang = currentLang;
+    var btnText = t('tribute.watch_btn');
+
+    container.innerHTML = tributeData.map(function(card) {
+        var title = escapeHTML(card['title_' + lang] || card.title_pt || '');
+        var subtitle = escapeHTML(card['subtitle_' + lang] || card.subtitle_pt || '');
+        var desc = escapeHTML(card['description_' + lang] || card.description_pt || '');
+        var url = card.url || '#';
+        var isExternal = url.startsWith('http');
+        var targetAttr = isExternal ? ' target="_blank" rel="noopener"' : '';
+
+        return '<div class="glass-strong tribute-card p-6 fade-in visible">' +
+            '<div class="flex items-center justify-between mb-4">' +
+                '<div>' +
+                    '<h3 class="text-lg font-bold text-slate-800">' + title + '</h3>' +
+                    '<p class="text-sm text-dj-indigo font-medium">' + subtitle + '</p>' +
+                '</div>' +
+                '<a href="' + escapeHTML(url) + '"' + targetAttr + ' class="btn-small">' + btnText + '</a>' +
+            '</div>' +
+            '<p class="text-slate-500 text-sm leading-relaxed">' + desc + '</p>' +
+        '</div>';
+    }).join('');
 }
 
 // Social Proof logos

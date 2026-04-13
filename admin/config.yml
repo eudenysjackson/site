@@ -222,3 +222,28 @@ collections:
                 widget: "string"
                 hint: "Cole a URL completa do YouTube (ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ) ou só o ID"
               - { label: "Descrição", name: "description", widget: "text", required: false }
+
+  # ===== O TRIBUTO =====
+  - name: "tribute"
+    label: "🎭 O Tributo"
+    files:
+      - name: "tribute"
+        label: "Cards do Tributo"
+        file: "content/tribute.json"
+        format: "json"
+        fields:
+          - label: "Cards"
+            name: "cards"
+            widget: "list"
+            summary: "{{fields.title_pt}}"
+            fields:
+              - { label: "Título (PT)", name: "title_pt", widget: "string" }
+              - { label: "Título (EN)", name: "title_en", widget: "string", required: false }
+              - { label: "Título (ES)", name: "title_es", widget: "string", required: false }
+              - { label: "Subtítulo (PT)", name: "subtitle_pt", widget: "string" }
+              - { label: "Subtítulo (EN)", name: "subtitle_en", widget: "string", required: false }
+              - { label: "Subtítulo (ES)", name: "subtitle_es", widget: "string", required: false }
+              - { label: "Descrição (PT)", name: "description_pt", widget: "text" }
+              - { label: "Descrição (EN)", name: "description_en", widget: "text", required: false }
+              - { label: "Descrição (ES)", name: "description_es", widget: "text", required: false }
+              - { label: "Link do Botão", name: "url", widget: "string", hint: "URL do YouTube ou âncora (#midias). O botão abrirá esse link." }
