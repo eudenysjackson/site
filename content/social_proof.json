@@ -17,7 +17,11 @@
     {
       "name": "TV Record",
       "image": "/images/uploads/Logotipo_da_Rede_Record_edited.png",
-      "url": "https://www.youtube.com/watch?v=gH2TE8DitOQ"
+      "url": "https://www.youtube.com/watch?v=gH2TE8DitOQ",
+      "position": "50% 50%",
+      "scale": 100,
+      "position_mobile": "57% 50%",
+      "scale_mobile": 100
     },
     {
       "name": "FUNARJ",
