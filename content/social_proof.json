@@ -2,19 +2,23 @@
   "logos": [
     {
       "name": "Rede Globo",
-      "image": "/images/uploads/960px-TV_Globo_logo_(April_2025)_edited.png"
+      "image": "/images/uploads/960px-TV_Globo_logo_(April_2025)_edited.png",
+      "url": "https://oglobo.globo.com/rio/bairros/arena-carioca-dicro-na-penha-promove-concurso-de-covers-22559941"
     },
     {
       "name": "Multishow",
-      "image": "/images/uploads/960px-Multishow_logo_red_2012_edited.png"
+      "image": "/images/uploads/960px-Multishow_logo_red_2012_edited.png",
+      "url": "https://www.youtube.com/watch?v=AMc0-7qEZlc"
     },
     {
       "name": "TV Record",
-      "image": "/images/uploads/Logotipo_da_Rede_Record_edited.png"
+      "image": "/images/uploads/Logotipo_da_Rede_Record_edited.png",
+      "url": "https://www.youtube.com/watch?v=gH2TE8DitOQ"
     },
     {
       "name": "FUNARJ",
-      "image": "/images/uploads/Espaços_FUNARJ__7_-removebg-preview.png"
+      "image": "/images/uploads/Espaços_FUNARJ__7_-removebg-preview.png",
+      "url": "https://soumeier.com.br/todas-as-noticias/eventos/tributo-a-michael-jackson-chega-ao-imperator-no-meier/"
     }
   ]
 }
