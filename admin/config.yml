@@ -163,6 +163,7 @@ collections:
                 default: false
                 hint: "Marque para mostrar só o banner + botão, sem data/local/horário."
               - { label: "Posição do Banner", name: "banner_position", widget: "hidden", required: false }
+              - { label: "Posição do Banner Mobile", name: "banner_position_mobile", widget: "hidden", required: false }
               - label: "Status"
                 name: "status"
                 widget: "select"
@@ -214,6 +215,8 @@ collections:
               - { label: "Link (URL)", name: "url", widget: "string", required: false, hint: "URL ao clicar no logo. Ex: https://globo.com. Deixe vazio para não ter link." }
               - { label: "Posição", name: "position", widget: "hidden", required: false }
               - { label: "Escala", name: "scale", widget: "hidden", required: false }
+              - { label: "Posição Mobile", name: "position_mobile", widget: "hidden", required: false }
+              - { label: "Escala Mobile", name: "scale_mobile", widget: "hidden", required: false }
 
   # ===== VÍDEOS =====
   - name: "videos"

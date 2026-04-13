@@ -188,12 +188,16 @@ async function loadSocialProof() {
     var grid = document.getElementById('social-proof-grid');
     if (!grid) return;
 
+    var isMobile = window.innerWidth < 768;
+
     grid.innerHTML = data.logos.map(function(logo) {
         var name = escapeHTML(logo.name);
         var hasLink = logo.url && logo.url.trim();
         var posStyle = '';
-        if (logo.position) posStyle += 'object-position:' + logo.position + ';';
-        if (logo.scale && logo.scale !== 100) posStyle += 'transform:scale(' + (logo.scale / 100) + ');';
+        var pos = isMobile ? (logo.position_mobile || logo.position) : logo.position;
+        var scale = isMobile ? (logo.scale_mobile || logo.scale) : logo.scale;
+        if (pos) posStyle += 'object-position:' + pos + ';';
+        if (scale && scale !== 100) posStyle += 'transform:scale(' + (scale / 100) + ');';
         var openTag = hasLink ? '<a href="' + escapeHTML(logo.url.trim()) + '" target="_blank" rel="noopener" class="glass media-logo-card p-6 block">' : '<div class="glass media-logo-card p-6">';
         var closeTag = hasLink ? '</a>' : '</div>';
         if (logo.image) {
@@ -335,7 +339,9 @@ function renderShows() {
                     </div>`;
             }
 
-            var bannerPosStyle = show.banner_position ? 'object-position:' + show.banner_position + ';' : '';
+            var bIsMobile = window.innerWidth < 768;
+            var bPos = bIsMobile ? (show.banner_position_mobile || show.banner_position) : show.banner_position;
+            var bannerPosStyle = bPos ? 'object-position:' + bPos + ';' : '';
 
             return `
                 <div class="show-card-banner fade-in visible">

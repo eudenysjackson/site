@@ -37,6 +37,9 @@
         .gallery-thumb { border-radius: 8px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: border-color 0.2s; aspect-ratio: 1; }
         .gallery-thumb.active { border-color: #4338ca; }
         .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .sub-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+        .sub-tab { padding: 0.35rem 1rem; border-radius: 6px; background: #e2e8f0; cursor: pointer; font-size: 0.8rem; font-weight: 600; border: none; }
+        .sub-tab.active { background: #6366f1; color: white; }
         .no-img { display: flex; align-items: center; justify-content: center; height: 200px; color: #94a3b8; font-size: 0.9rem; }
     </style>
 </head>
@@ -124,22 +127,47 @@
             <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Clique em um logo para ajustar a posição.</p>
             <div class="gallery-grid" id="logos-grid"></div>
             <div id="logos-editor" style="display:none">
+                <div class="sub-tabs">
+                    <button class="sub-tab active" onclick="setLogosView('desktop')">Desktop</button>
+                    <button class="sub-tab" onclick="setLogosView('mobile')">Mobile</button>
+                </div>
                 <div class="preview-box gallery" id="logos-preview" style="background:#fff;"></div>
-                <div class="controls">
-                    <div class="control-row">
-                        <label>← Horizontal →</label>
-                        <input type="range" id="logos-x" min="0" max="100" value="50" oninput="updateLogos()">
-                        <span class="value" id="logos-x-val">50%</span>
+                <div id="logos-controls-desktop">
+                    <div class="controls">
+                        <div class="control-row">
+                            <label>← Horizontal →</label>
+                            <input type="range" id="logos-x" min="0" max="100" value="50" oninput="updateLogos('desktop')">
+                            <span class="value" id="logos-x-val">50%</span>
+                        </div>
+                        <div class="control-row">
+                            <label>↑ Vertical ↓</label>
+                            <input type="range" id="logos-y" min="0" max="100" value="50" oninput="updateLogos('desktop')">
+                            <span class="value" id="logos-y-val">50%</span>
+                        </div>
+                        <div class="control-row">
+                            <label>Escala</label>
+                            <input type="range" id="logos-scale" min="10" max="200" value="100" oninput="updateLogos('desktop')">
+                            <span class="value" id="logos-scale-val">100%</span>
+                        </div>
                     </div>
-                    <div class="control-row">
-                        <label>↑ Vertical ↓</label>
-                        <input type="range" id="logos-y" min="0" max="100" value="50" oninput="updateLogos()">
-                        <span class="value" id="logos-y-val">50%</span>
-                    </div>
-                    <div class="control-row">
-                        <label>Escala</label>
-                        <input type="range" id="logos-scale" min="10" max="200" value="100" oninput="updateLogos()">
-                        <span class="value" id="logos-scale-val">100%</span>
+                </div>
+                <div id="logos-controls-mobile" style="display:none">
+                    <div class="controls">
+                        <div class="control-row">
+                            <label>← Horizontal →</label>
+                            <input type="range" id="logos-mx" min="0" max="100" value="50" oninput="updateLogos('mobile')">
+                            <span class="value" id="logos-mx-val">50%</span>
+                        </div>
+                        <div class="control-row">
+                            <label>↑ Vertical ↓</label>
+                            <input type="range" id="logos-my" min="0" max="100" value="50" oninput="updateLogos('mobile')">
+                            <span class="value" id="logos-my-val">50%</span>
+                        </div>
+                        <div class="control-row">
+                            <label>Escala</label>
+                            <input type="range" id="logos-mscale" min="10" max="200" value="100" oninput="updateLogos('mobile')">
+                            <span class="value" id="logos-mscale-val">100%</span>
+                        </div>
                     </div>
                 </div>
                 <button class="save-btn" onclick="saveLogos()">Salvar posição do logo</button>
@@ -153,17 +181,38 @@
             <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Clique em um banner para ajustar a posição.</p>
             <div class="gallery-grid" id="banners-grid"></div>
             <div id="banners-editor" style="display:none">
-                <div class="preview-box hero" id="banners-preview"></div>
-                <div class="controls">
-                    <div class="control-row">
-                        <label>← Horizontal →</label>
-                        <input type="range" id="banners-x" min="0" max="100" value="50" oninput="updateBanners()">
-                        <span class="value" id="banners-x-val">50%</span>
+                <div class="sub-tabs">
+                    <button class="sub-tab active" onclick="setBannersView('desktop')">Desktop</button>
+                    <button class="sub-tab" onclick="setBannersView('mobile')">Mobile</button>
+                </div>
+                <div id="banners-preview-wrap-desktop">
+                    <div class="preview-box hero" id="banners-preview"></div>
+                    <div class="controls">
+                        <div class="control-row">
+                            <label>← Horizontal →</label>
+                            <input type="range" id="banners-x" min="0" max="100" value="50" oninput="updateBanners('desktop')">
+                            <span class="value" id="banners-x-val">50%</span>
+                        </div>
+                        <div class="control-row">
+                            <label>↑ Vertical ↓</label>
+                            <input type="range" id="banners-y" min="0" max="100" value="50" oninput="updateBanners('desktop')">
+                            <span class="value" id="banners-y-val">50%</span>
+                        </div>
                     </div>
-                    <div class="control-row">
-                        <label>↑ Vertical ↓</label>
-                        <input type="range" id="banners-y" min="0" max="100" value="50" oninput="updateBanners()">
-                        <span class="value" id="banners-y-val">50%</span>
+                </div>
+                <div id="banners-preview-wrap-mobile" style="display:none">
+                    <div class="preview-box hero-mobile" id="banners-preview-m"></div>
+                    <div class="controls">
+                        <div class="control-row">
+                            <label>← Horizontal →</label>
+                            <input type="range" id="banners-mx" min="0" max="100" value="50" oninput="updateBanners('mobile')">
+                            <span class="value" id="banners-mx-val">50%</span>
+                        </div>
+                        <div class="control-row">
+                            <label>↑ Vertical ↓</label>
+                            <input type="range" id="banners-my" min="0" max="100" value="50" oninput="updateBanners('mobile')">
+                            <span class="value" id="banners-my-val">50%</span>
+                        </div>
                     </div>
                 </div>
                 <button class="save-btn" onclick="saveBanners()">Salvar posição do banner</button>
@@ -392,6 +441,19 @@
     }
 
     // === LOGOS ===
+    var logosView = 'desktop';
+
+    function setLogosView(view) {
+        logosView = view;
+        document.querySelectorAll('#tab-logos .sub-tab').forEach(function(el) {
+            el.classList.toggle('active', el.textContent.toLowerCase().indexOf(view) >= 0 || (view === 'desktop' && el.textContent === 'Desktop') || (view === 'mobile' && el.textContent === 'Mobile'));
+        });
+        document.getElementById('logos-controls-desktop').style.display = view === 'desktop' ? 'block' : 'none';
+        document.getElementById('logos-controls-mobile').style.display = view === 'mobile' ? 'block' : 'none';
+        // Update preview with current view's values
+        updateLogos(view);
+    }
+
     function renderLogosGrid() {
         var grid = document.getElementById('logos-grid');
         if (!socialData || !socialData.logos || !socialData.logos.length) {
@@ -411,21 +473,35 @@
         var logo = socialData.logos[i];
         var box = document.getElementById('logos-preview');
         box.innerHTML = '<img id="logos-img" src="' + fixImg(logo.image) + '" style="object-fit:contain;padding:1rem;">';
+        // Desktop values
         var pos = parsePos(logo.position);
         document.getElementById('logos-x').value = pos[0];
         document.getElementById('logos-y').value = pos[1];
-        var scale = logo.scale || 100;
-        document.getElementById('logos-scale').value = scale;
-        updateLogos();
+        document.getElementById('logos-scale').value = logo.scale || 100;
+        // Mobile values
+        var posM = parsePos(logo.position_mobile || logo.position);
+        document.getElementById('logos-mx').value = posM[0];
+        document.getElementById('logos-my').value = posM[1];
+        document.getElementById('logos-mscale').value = logo.scale_mobile || logo.scale || 100;
+        updateLogos(logosView);
     }
 
-    function updateLogos() {
-        var x = document.getElementById('logos-x').value;
-        var y = document.getElementById('logos-y').value;
-        var s = document.getElementById('logos-scale').value;
-        document.getElementById('logos-x-val').textContent = x + '%';
-        document.getElementById('logos-y-val').textContent = y + '%';
-        document.getElementById('logos-scale-val').textContent = s + '%';
+    function updateLogos(view) {
+        if (view === 'mobile') {
+            var x = document.getElementById('logos-mx').value;
+            var y = document.getElementById('logos-my').value;
+            var s = document.getElementById('logos-mscale').value;
+            document.getElementById('logos-mx-val').textContent = x + '%';
+            document.getElementById('logos-my-val').textContent = y + '%';
+            document.getElementById('logos-mscale-val').textContent = s + '%';
+        } else {
+            var x = document.getElementById('logos-x').value;
+            var y = document.getElementById('logos-y').value;
+            var s = document.getElementById('logos-scale').value;
+            document.getElementById('logos-x-val').textContent = x + '%';
+            document.getElementById('logos-y-val').textContent = y + '%';
+            document.getElementById('logos-scale-val').textContent = s + '%';
+        }
         var img = document.getElementById('logos-img');
         if (img) {
             img.style.objectPosition = x + '% ' + y + '%';
@@ -440,6 +516,8 @@
         try {
             socialData.logos[selectedLogo].position = document.getElementById('logos-x').value + '% ' + document.getElementById('logos-y').value + '%';
             socialData.logos[selectedLogo].scale = parseInt(document.getElementById('logos-scale').value);
+            socialData.logos[selectedLogo].position_mobile = document.getElementById('logos-mx').value + '% ' + document.getElementById('logos-my').value + '%';
+            socialData.logos[selectedLogo].scale_mobile = parseInt(document.getElementById('logos-mscale').value);
             var result = await ghSave('content/social_proof.json', JSON.stringify(socialData, null, 2) + '\n', socialSha, 'Ajuste posição logo via painel visual');
             socialSha = result.content.sha;
             setStatus('ok', 'Logo salvo!', 'status-logos');
@@ -450,6 +528,27 @@
     }
 
     // === BANNERS ===
+    var bannersView = 'desktop';
+
+    function setBannersView(view) {
+        bannersView = view;
+        document.querySelectorAll('#tab-banners .sub-tab').forEach(function(el) {
+            el.classList.toggle('active', (view === 'desktop' && el.textContent === 'Desktop') || (view === 'mobile' && el.textContent === 'Mobile'));
+        });
+        document.getElementById('banners-preview-wrap-desktop').style.display = view === 'desktop' ? 'block' : 'none';
+        document.getElementById('banners-preview-wrap-mobile').style.display = view === 'mobile' ? 'block' : 'none';
+        if (selectedBanner >= 0) {
+            var show = showsData.shows[selectedBanner];
+            if (view === 'mobile') {
+                document.getElementById('banners-preview-m').innerHTML = '<img id="banners-img-m" src="' + fixImg(show.banner) + '">';
+                updateBanners('mobile');
+            } else {
+                document.getElementById('banners-preview').innerHTML = '<img id="banners-img" src="' + fixImg(show.banner) + '">';
+                updateBanners('desktop');
+            }
+        }
+    }
+
     function renderBannersGrid() {
         var grid = document.getElementById('banners-grid');
         var emptyEl = document.getElementById('banners-empty');
@@ -465,7 +564,6 @@
             return;
         }
         emptyEl.style.display = 'none';
-        // Map indices to original shows array
         grid.innerHTML = showsData.shows.map(function(s, i) {
             if (!s.banner) return '';
             var label = s.venue || ('Show ' + (i + 1));
@@ -479,21 +577,35 @@
         document.getElementById('bthumb-' + i).classList.add('active');
         document.getElementById('banners-editor').style.display = 'block';
         var show = showsData.shows[i];
-        var box = document.getElementById('banners-preview');
-        box.innerHTML = '<img id="banners-img" src="' + fixImg(show.banner) + '">';
+        // Desktop
+        document.getElementById('banners-preview').innerHTML = '<img id="banners-img" src="' + fixImg(show.banner) + '">';
         var pos = parsePos(show.banner_position);
         document.getElementById('banners-x').value = pos[0];
         document.getElementById('banners-y').value = pos[1];
-        updateBanners();
+        // Mobile
+        document.getElementById('banners-preview-m').innerHTML = '<img id="banners-img-m" src="' + fixImg(show.banner) + '">';
+        var posM = parsePos(show.banner_position_mobile || show.banner_position);
+        document.getElementById('banners-mx').value = posM[0];
+        document.getElementById('banners-my').value = posM[1];
+        updateBanners(bannersView);
     }
 
-    function updateBanners() {
-        var x = document.getElementById('banners-x').value;
-        var y = document.getElementById('banners-y').value;
-        document.getElementById('banners-x-val').textContent = x + '%';
-        document.getElementById('banners-y-val').textContent = y + '%';
-        var img = document.getElementById('banners-img');
-        if (img) img.style.objectPosition = x + '% ' + y + '%';
+    function updateBanners(view) {
+        if (view === 'mobile') {
+            var x = document.getElementById('banners-mx').value;
+            var y = document.getElementById('banners-my').value;
+            document.getElementById('banners-mx-val').textContent = x + '%';
+            document.getElementById('banners-my-val').textContent = y + '%';
+            var img = document.getElementById('banners-img-m');
+            if (img) img.style.objectPosition = x + '% ' + y + '%';
+        } else {
+            var x = document.getElementById('banners-x').value;
+            var y = document.getElementById('banners-y').value;
+            document.getElementById('banners-x-val').textContent = x + '%';
+            document.getElementById('banners-y-val').textContent = y + '%';
+            var img = document.getElementById('banners-img');
+            if (img) img.style.objectPosition = x + '% ' + y + '%';
+        }
     }
 
     async function saveBanners() {
@@ -502,6 +614,7 @@
         btn.disabled = true; btn.textContent = 'Salvando...';
         try {
             showsData.shows[selectedBanner].banner_position = document.getElementById('banners-x').value + '% ' + document.getElementById('banners-y').value + '%';
+            showsData.shows[selectedBanner].banner_position_mobile = document.getElementById('banners-mx').value + '% ' + document.getElementById('banners-my').value + '%';
             var result = await ghSave('content/shows.json', JSON.stringify(showsData, null, 2) + '\n', showsSha, 'Ajuste posição banner via painel visual');
             showsSha = result.content.sha;
             setStatus('ok', 'Banner salvo!', 'status-banners');
