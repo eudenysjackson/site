@@ -26,7 +26,11 @@
     {
       "name": "FUNARJ",
       "image": "/images/uploads/Espaços_FUNARJ__7_-removebg-preview.png",
-      "url": "https://soumeier.com.br/todas-as-noticias/eventos/tributo-a-michael-jackson-chega-ao-imperator-no-meier/"
+      "url": "https://soumeier.com.br/todas-as-noticias/eventos/tributo-a-michael-jackson-chega-ao-imperator-no-meier/",
+      "position": "50% 50%",
+      "scale": 100,
+      "position_mobile": "57% 50%",
+      "scale_mobile": 100
     }
   ]
 }
