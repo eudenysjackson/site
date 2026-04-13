@@ -368,7 +368,7 @@ body {
 .show-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 1.25rem 1.5rem;
     gap: 1rem;
     flex-wrap: wrap;
@@ -405,8 +405,9 @@ body {
 }
 
 .show-info {
-    flex: 1;
+    flex: none;
     min-width: 200px;
+    text-align: center;
 }
 
 .show-info .venue {
@@ -745,7 +746,7 @@ body {
 @media (max-width: 768px) {
     .show-card {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .show-card .show-date {
