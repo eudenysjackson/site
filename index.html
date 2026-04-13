@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>var _v = Date.now();</script>
     <title>Denys Jackson - Na Ponta dos Pés | Tributo a Michael Jackson</title>
     <meta name="description" content="O maior tributo a Michael Jackson do Brasil. Shows com produção completa, ballet, figurinos fiéis e a energia do Rei do Pop ao vivo.">
     <meta name="keywords" content="Denys Jackson, Na Ponta dos Pés, tributo Michael Jackson, show tributo, Michael Jackson Brasil">
@@ -43,7 +47,8 @@
         }
     </script>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" id="app-css">
+    <script>document.getElementById('app-css').href='css/style.css?v='+_v;</script>
 </head>
 <body class="font-inter antialiased">
 
@@ -393,7 +398,7 @@
         </svg>
     </button>
 
-    <script src="js/i18n.js"></script>
-    <script src="js/main.js"></script>
+    <script>document.write('<script src="js/i18n.js?v='+_v+'"><\/script>');</script>
+    <script>document.write('<script src="js/main.js?v='+_v+'"><\/script>');</script>
 </body>
 </html>
