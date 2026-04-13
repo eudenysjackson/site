@@ -479,23 +479,42 @@ function initNavigation() {
 function initMobileMenu() {
     const toggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('mobile-menu');
+    const overlay = document.getElementById('mobile-overlay');
+    const closeBtn = document.getElementById('sidebar-close');
     const iconOpen = document.getElementById('menu-icon-open');
     const iconClose = document.getElementById('menu-icon-close');
 
-    toggle.addEventListener('click', () => {
-        const isOpen = !menu.classList.contains('hidden');
-        menu.classList.toggle('hidden');
-        iconOpen.classList.toggle('hidden', !isOpen);
-        iconClose.classList.toggle('hidden', isOpen);
+    function openSidebar() {
+        overlay.classList.remove('hidden');
+        requestAnimationFrame(function() {
+            overlay.style.opacity = '1';
+            menu.style.transform = 'translateX(0)';
+        });
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+        overlay.style.opacity = '0';
+        menu.style.transform = 'translateX(100%)';
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        document.body.style.overflow = '';
+        setTimeout(function() { overlay.classList.add('hidden'); }, 300);
+    }
+
+    toggle.addEventListener('click', function() {
+        var isOpen = menu.style.transform === 'translateX(0px)' || menu.style.transform === 'translateX(0)';
+        if (isOpen) closeSidebar(); else openSidebar();
     });
+
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
 
     // Close on link click
     menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            menu.classList.add('hidden');
-            iconOpen.classList.remove('hidden');
-            iconClose.classList.add('hidden');
-        });
+        link.addEventListener('click', closeSidebar);
     });
 }
 

@@ -90,9 +90,16 @@
             </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden glass-strong">
-            <div class="px-4 py-6 space-y-4">
+        <!-- Mobile Sidebar -->
+        <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden" style="opacity:0;transition:opacity .3s;"></div>
+        <div id="mobile-menu" class="fixed top-0 right-0 h-full w-72 z-50 bg-white shadow-2xl md:hidden" style="transform:translateX(100%);transition:transform .3s ease;">
+            <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
+                <span class="font-bold text-dj-indigo text-sm tracking-wide">MENU</span>
+                <button id="sidebar-close" class="p-2" aria-label="Fechar">
+                    <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="px-5 py-6 space-y-4">
                 <a href="#home" class="mobile-nav-link" data-i18n="nav.home">Início</a>
                 <a href="#sobre" class="mobile-nav-link" data-i18n="nav.about">Sobre</a>
                 <a href="#agenda" class="mobile-nav-link" data-i18n="nav.schedule">Agenda</a>
@@ -142,7 +149,7 @@
             <h3 class="text-center text-xs font-bold tracking-[0.2em] uppercase text-slate-400 mb-4" data-i18n="social_proof.title">
                 Visto e Aprovado por
             </h3>
-            <div id="social-proof-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+            <div id="social-proof-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6 place-items-center"></div>
         </div>
     </section>
 
