@@ -149,14 +149,17 @@ async function loadSocialProof() {
 
     grid.innerHTML = data.logos.map(function(logo) {
         var name = escapeHTML(logo.name);
+        var hasLink = logo.url && logo.url.trim();
+        var openTag = hasLink ? '<a href="' + escapeHTML(logo.url.trim()) + '" target="_blank" rel="noopener" class="glass media-logo-card p-6 block">' : '<div class="glass media-logo-card p-6">';
+        var closeTag = hasLink ? '</a>' : '</div>';
         if (logo.image) {
-            return '<div class="glass media-logo-card p-6">' +
+            return openTag +
                 '<img src="' + escapeHTML(fixPath(logo.image)) + '" alt="' + name + '" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity">' +
-                '</div>';
+                closeTag;
         }
-        return '<div class="glass media-logo-card p-6">' +
+        return openTag +
             '<span class="text-slate-400 font-bold text-lg">' + name + '</span>' +
-            '</div>';
+            closeTag;
     }).join('');
 }
 

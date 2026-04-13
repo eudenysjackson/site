@@ -32,6 +32,18 @@ const translations = {
         'tribute.title': 'O Tributo',
         'tribute.description': '"Na Ponta dos Pés" nasceu em 2019 e desde então vem se profissionalizando e conquistando cada vez mais espaço e reconhecimento dentro do estado do Rio de Janeiro.',
         'tribute.watch_btn': 'Assista em 4K',
+        'tribute.card1_title': 'Liberdade Criativa',
+        'tribute.card1_subtitle': 'Impacto Emocional',
+        'tribute.card1_desc': 'Mais que um tributo, é a imersão total no legado do rei do pop. Decidimos quebrar o protocolo da turnê Dangerous para incluir "They Don\'t Care About Us", um hino de resistência que pulsa no coração dos fãs.',
+        'tribute.card2_title': 'Efeitos Especiais',
+        'tribute.card2_subtitle': 'Sombra Chinesa Gigante e o The Lean',
+        'tribute.card2_desc': 'No nosso show, replicamos a sombra chinesa gigante das turnês originais e o efeito "the lean". A técnica de antigravidade que ainda hoje surpreende quem assiste de perto.',
+        'tribute.card3_title': 'O Legado',
+        'tribute.card3_subtitle': 'Billie Jean, Thriller, Beat It',
+        'tribute.card3_desc': 'Os passos e os figurinos que marcaram época ganham vida no palco, desde o moonwalk à parada na ponta do pé que batiza o nosso show.',
+        'tribute.card4_title': 'Novidades',
+        'tribute.card4_subtitle': 'Remember The Time',
+        'tribute.card4_desc': 'Tiramos do papel o que ficou apenas nos ensaios. Nosso palco revela o que o público nunca pôde ver ao vivo, transformando músicas como "Remember The Time" em uma performance completa.',
 
         // Schedule
         'schedule.label': 'Agenda',
@@ -76,6 +88,7 @@ const translations = {
         'footer.contact': 'Contato',
         'footer.navigation': 'Navegação',
         'footer.social': 'Mídias',
+        'footer.copyright': 'Criado por Denys Jackson',
 
         // Months
         'month.0': 'JAN', 'month.1': 'FEV', 'month.2': 'MAR', 'month.3': 'ABR',
@@ -106,6 +119,18 @@ const translations = {
         'tribute.title': 'The Tribute',
         'tribute.description': '"Na Ponta dos Pés" was born in 2019 and has since been professionalizing and gaining more space and recognition in the state of Rio de Janeiro.',
         'tribute.watch_btn': 'Watch in 4K',
+        'tribute.card1_title': 'Creative Freedom',
+        'tribute.card1_subtitle': 'Emotional Impact',
+        'tribute.card1_desc': 'More than a tribute, it\'s a total immersion in the legacy of the King of Pop. We decided to break the Dangerous tour protocol to include "They Don\'t Care About Us", an anthem of resistance that beats in the hearts of fans.',
+        'tribute.card2_title': 'Special Effects',
+        'tribute.card2_subtitle': 'Giant Chinese Shadow and The Lean',
+        'tribute.card2_desc': 'In our show, we replicate the giant Chinese shadow from the original tours and "the lean" effect. The anti-gravity technique that still amazes audiences to this day.',
+        'tribute.card3_title': 'The Legacy',
+        'tribute.card3_subtitle': 'Billie Jean, Thriller, Beat It',
+        'tribute.card3_desc': 'The steps and costumes that marked an era come to life on stage, from the moonwalk to the toe stand that gives our show its name.',
+        'tribute.card4_title': 'What\'s New',
+        'tribute.card4_subtitle': 'Remember The Time',
+        'tribute.card4_desc': 'We brought to life what only existed in rehearsals. Our stage reveals what the audience never got to see live, turning songs like "Remember The Time" into a full performance.',
 
         'schedule.label': 'Schedule',
         'schedule.title': 'Upcoming Shows',
@@ -146,6 +171,7 @@ const translations = {
         'footer.contact': 'Contact',
         'footer.navigation': 'Navigation',
         'footer.social': 'Media',
+        'footer.copyright': 'Created by Denys Jackson',
 
         'month.0': 'JAN', 'month.1': 'FEB', 'month.2': 'MAR', 'month.3': 'APR',
         'month.4': 'MAY', 'month.5': 'JUN', 'month.6': 'JUL', 'month.7': 'AUG',
@@ -175,6 +201,18 @@ const translations = {
         'tribute.title': 'El Tributo',
         'tribute.description': '"Na Ponta dos Pés" nació en 2019 y desde entonces se ha profesionalizado y conquistado cada vez más espacio y reconocimiento en el estado de Río de Janeiro.',
         'tribute.watch_btn': 'Ver en 4K',
+        'tribute.card1_title': 'Libertad Creativa',
+        'tribute.card1_subtitle': 'Impacto Emocional',
+        'tribute.card1_desc': 'Más que un tributo, es la inmersión total en el legado del rey del pop. Decidimos romper el protocolo de la gira Dangerous para incluir "They Don\'t Care About Us", un himno de resistencia que late en el corazón de los fans.',
+        'tribute.card2_title': 'Efectos Especiales',
+        'tribute.card2_subtitle': 'Sombra China Gigante y The Lean',
+        'tribute.card2_desc': 'En nuestro show, replicamos la sombra china gigante de las giras originales y el efecto "the lean". La técnica de antigravedad que aún hoy sorprende a quien lo ve de cerca.',
+        'tribute.card3_title': 'El Legado',
+        'tribute.card3_subtitle': 'Billie Jean, Thriller, Beat It',
+        'tribute.card3_desc': 'Los pasos y los vestuarios que marcaron época cobran vida en el escenario, desde el moonwalk hasta la parada en la punta del pie que bautiza nuestro show.',
+        'tribute.card4_title': 'Novedades',
+        'tribute.card4_subtitle': 'Remember The Time',
+        'tribute.card4_desc': 'Sacamos del papel lo que quedó solo en los ensayos. Nuestro escenario revela lo que el público nunca pudo ver en vivo, transformando canciones como "Remember The Time" en una performance completa.',
 
         'schedule.label': 'Agenda',
         'schedule.title': 'Próximos Shows',
@@ -215,6 +253,7 @@ const translations = {
         'footer.contact': 'Contacto',
         'footer.navigation': 'Navegación',
         'footer.social': 'Medios',
+        'footer.copyright': 'Creado por Denys Jackson',
 
         'month.0': 'ENE', 'month.1': 'FEB', 'month.2': 'MAR', 'month.3': 'ABR',
         'month.4': 'MAY', 'month.5': 'JUN', 'month.6': 'JUL', 'month.7': 'AGO',
@@ -249,6 +288,7 @@ function setLanguage(lang) {
     });
 
     // Re-render dynamic content with new language
+    if (typeof loadAbout === 'function') loadAbout();
     if (typeof renderShows === 'function') renderShows();
 }
 

@@ -200,6 +200,7 @@ collections:
             fields:
               - { label: "Nome", name: "name", widget: "string", hint: "Ex: Rede Globo" }
               - { label: "Logo (imagem)", name: "image", widget: "image", hint: "PNG com fundo transparente. Recomendado: 200x100px" }
+              - { label: "Link (URL)", name: "url", widget: "string", required: false, hint: "URL ao clicar no logo. Ex: https://globo.com. Deixe vazio para não ter link." }
 
   # ===== VÍDEOS =====
   - name: "videos"
