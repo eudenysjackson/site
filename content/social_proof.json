@@ -3,7 +3,11 @@
     {
       "name": "Rede Globo",
       "image": "/images/uploads/960px-TV_Globo_logo_(April_2025)_edited.png",
-      "url": "https://oglobo.globo.com/rio/bairros/arena-carioca-dicro-na-penha-promove-concurso-de-covers-22559941"
+      "url": "https://oglobo.globo.com/rio/bairros/arena-carioca-dicro-na-penha-promove-concurso-de-covers-22559941",
+      "position": "50% 50%",
+      "scale": 100,
+      "position_mobile": "57% 50%",
+      "scale_mobile": 100
     },
     {
       "name": "Multishow",
