@@ -294,6 +294,39 @@ function renderShows() {
             ? `<a href="${encodeURI(show.ticket_url)}" target="_blank" rel="noopener" class="btn-primary text-sm py-2 px-4">${statusLabels.confirmado}</a>`
             : `<span class="show-status ${show.status}">${statusLabels[show.status] || show.status}</span>`;
 
+        // Banner mode: show image with glass button overlay
+        if (show.banner) {
+            var bannerTicketBtn = show.status === 'confirmado' && show.ticket_url
+                ? `<a href="${encodeURI(show.ticket_url)}" target="_blank" rel="noopener" class="show-banner-btn">${statusLabels.confirmado}</a>`
+                : `<span class="show-status ${show.status}">${statusLabels[show.status] || show.status}</span>`;
+
+            var infoOverlay = '';
+            if (!show.hide_info) {
+                infoOverlay = `
+                    <div class="show-banner-info">
+                        <div class="show-date">
+                            <span class="day">${day}</span>
+                            <span class="month">${month}</span>
+                        </div>
+                        <div class="show-info">
+                            <div class="venue">${escapeHTML(show.venue)}</div>
+                            <div class="city">${escapeHTML(show.city)}</div>
+                            ${show.time ? `<div class="time">🕐 ${escapeHTML(show.time)}</div>` : ''}
+                        </div>
+                    </div>`;
+            }
+
+            return `
+                <div class="show-card-banner fade-in visible">
+                    <img src="${fixImagePath(show.banner)}" alt="${escapeHTML(show.venue)}" class="show-banner-img">
+                    <div class="show-banner-overlay">
+                        ${infoOverlay}
+                        ${bannerTicketBtn}
+                    </div>
+                </div>
+            `;
+        }
+
         return `
             <div class="show-card fade-in visible">
                 <div class="show-date">

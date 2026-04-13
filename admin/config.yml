@@ -152,6 +152,16 @@ collections:
               - { label: "Local", name: "venue", widget: "string", hint: "Nome do teatro/casa de show" }
               - { label: "Cidade", name: "city", widget: "string", hint: "Ex: Rio de Janeiro, RJ" }
               - { label: "Link p/ Ingresso", name: "ticket_url", widget: "string", required: false }
+              - label: "Banner do Evento"
+                name: "banner"
+                widget: "image"
+                required: false
+                hint: "Imagem do banner/flyer do evento. Se enviada, o card mostra o banner com botão por cima. Recomendado: 800x400px ou proporcional."
+              - label: "Esconder texto informativo?"
+                name: "hide_info"
+                widget: "boolean"
+                default: false
+                hint: "Marque para mostrar só o banner + botão, sem data/local/horário."
               - label: "Status"
                 name: "status"
                 widget: "select"

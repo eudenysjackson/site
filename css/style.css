@@ -452,6 +452,100 @@ body {
     text-decoration: line-through;
 }
 
+/* ===== SHOW BANNER CARD ===== */
+.show-card-banner {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.show-card-banner:hover {
+    transform: translateY(-2px);
+}
+
+.show-banner-img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.show-banner-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+}
+
+.show-banner-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.show-banner-info .show-date {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.show-banner-info .show-date .day {
+    color: #fff;
+}
+
+.show-banner-info .show-date .month {
+    color: rgba(255,255,255,0.8);
+}
+
+.show-banner-info .show-info {
+    text-align: left;
+}
+
+.show-banner-info .venue {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.show-banner-info .city {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.875rem;
+}
+
+.show-banner-info .time {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.75rem;
+}
+
+.show-banner-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 9999px;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.show-banner-btn:hover {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.5);
+    transform: scale(1.03);
+}
+
 /* ===== MEDIA TABS ===== */
 .media-tab {
     padding: 0.75rem 1.5rem;
