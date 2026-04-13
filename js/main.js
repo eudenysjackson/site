@@ -383,7 +383,8 @@ async function loadGallery() {
     emptyState.classList.add('hidden');
 
     grid.innerHTML = data.photos.map((photo, i) => {
-        var pos = photo.position || '50% 50%';
+        var isMobileG = window.innerWidth < 768;
+        var pos = isMobileG ? (photo.position_mobile || photo.position || '50% 50%') : (photo.position || '50% 50%');
         return `
         <div class="gallery-item" data-index="${i}" data-src="${fixPath(photo.image)}" data-caption="${escapeHTML(photo.caption || '')}">
             <img src="${fixPath(photo.image)}" alt="${escapeHTML(photo.caption || 'Foto')}" loading="lazy" style="object-position: ${pos}">

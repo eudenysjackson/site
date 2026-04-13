@@ -104,17 +104,38 @@
             <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Clique em uma foto para ajustar a posição.</p>
             <div class="gallery-grid" id="gallery-grid"></div>
             <div id="gallery-editor" style="display:none">
-                <div class="preview-box gallery" id="gallery-preview"></div>
-                <div class="controls">
-                    <div class="control-row">
-                        <label>← Horizontal →</label>
-                        <input type="range" id="gallery-x" min="0" max="100" value="50" oninput="updateGallery()">
-                        <span class="value" id="gallery-x-val">50%</span>
+                <div class="sub-tabs">
+                    <button class="sub-tab active" onclick="setGalleryView('desktop')">Desktop</button>
+                    <button class="sub-tab" onclick="setGalleryView('mobile')">Mobile</button>
+                </div>
+                <div id="gallery-controls-desktop">
+                    <div class="preview-box gallery" id="gallery-preview"></div>
+                    <div class="controls">
+                        <div class="control-row">
+                            <label>← Horizontal →</label>
+                            <input type="range" id="gallery-x" min="0" max="100" value="50" oninput="updateGallery('desktop')">
+                            <span class="value" id="gallery-x-val">50%</span>
+                        </div>
+                        <div class="control-row">
+                            <label>↑ Vertical ↓</label>
+                            <input type="range" id="gallery-y" min="0" max="100" value="50" oninput="updateGallery('desktop')">
+                            <span class="value" id="gallery-y-val">50%</span>
+                        </div>
                     </div>
-                    <div class="control-row">
-                        <label>↑ Vertical ↓</label>
-                        <input type="range" id="gallery-y" min="0" max="100" value="50" oninput="updateGallery()">
-                        <span class="value" id="gallery-y-val">50%</span>
+                </div>
+                <div id="gallery-controls-mobile" style="display:none">
+                    <div class="preview-box hero-mobile" id="gallery-preview-m"></div>
+                    <div class="controls">
+                        <div class="control-row">
+                            <label>← Horizontal →</label>
+                            <input type="range" id="gallery-mx" min="0" max="100" value="50" oninput="updateGallery('mobile')">
+                            <span class="value" id="gallery-mx-val">50%</span>
+                        </div>
+                        <div class="control-row">
+                            <label>↑ Vertical ↓</label>
+                            <input type="range" id="gallery-my" min="0" max="100" value="50" oninput="updateGallery('mobile')">
+                            <span class="value" id="gallery-my-val">50%</span>
+                        </div>
                     </div>
                 </div>
                 <button class="save-btn" onclick="saveGallery()">Salvar posição da foto</button>
@@ -359,18 +380,44 @@
         }).join('');
     }
 
+    var galleryView = 'desktop';
+
+    function setGalleryView(view) {
+        galleryView = view;
+        document.querySelectorAll('#tab-gallery .sub-tab').forEach(function(el) {
+            el.classList.toggle('active', (view === 'desktop' && el.textContent === 'Desktop') || (view === 'mobile' && el.textContent === 'Mobile'));
+        });
+        document.getElementById('gallery-controls-desktop').style.display = view === 'desktop' ? 'block' : 'none';
+        document.getElementById('gallery-controls-mobile').style.display = view === 'mobile' ? 'block' : 'none';
+        if (selectedPhoto >= 0) {
+            var photo = galleryData.photos[selectedPhoto];
+            if (view === 'mobile') {
+                document.getElementById('gallery-preview-m').innerHTML = '<img id="gallery-img-m" src="' + fixImg(photo.image) + '">';
+                updateGallery('mobile');
+            } else {
+                document.getElementById('gallery-preview').innerHTML = '<img id="gallery-img" src="' + fixImg(photo.image) + '">';
+                updateGallery('desktop');
+            }
+        }
+    }
+
     function selectPhoto(i) {
         selectedPhoto = i;
-        document.querySelectorAll('.gallery-thumb').forEach(function(el) { el.classList.remove('active'); });
+        document.querySelectorAll('#gallery-grid .gallery-thumb').forEach(function(el) { el.classList.remove('active'); });
         document.getElementById('gthumb-' + i).classList.add('active');
         document.getElementById('gallery-editor').style.display = 'block';
         var photo = galleryData.photos[i];
-        var box = document.getElementById('gallery-preview');
-        box.innerHTML = '<img id="gallery-img" src="' + fixImg(photo.image) + '">';
+        // Desktop
+        document.getElementById('gallery-preview').innerHTML = '<img id="gallery-img" src="' + fixImg(photo.image) + '">';
         var pos = parsePos(photo.position);
         document.getElementById('gallery-x').value = pos[0];
         document.getElementById('gallery-y').value = pos[1];
-        updateGallery();
+        // Mobile
+        document.getElementById('gallery-preview-m').innerHTML = '<img id="gallery-img-m" src="' + fixImg(photo.image) + '">';
+        var posM = parsePos(photo.position_mobile || photo.position);
+        document.getElementById('gallery-mx').value = posM[0];
+        document.getElementById('gallery-my').value = posM[1];
+        updateGallery(galleryView);
     }
 
     function updateHero() {
@@ -391,13 +438,22 @@
         if (img) img.style.objectPosition = x + '% ' + y + '%';
     }
 
-    function updateGallery() {
-        var x = document.getElementById('gallery-x').value;
-        var y = document.getElementById('gallery-y').value;
-        document.getElementById('gallery-x-val').textContent = x + '%';
-        document.getElementById('gallery-y-val').textContent = y + '%';
-        var img = document.getElementById('gallery-img');
-        if (img) img.style.objectPosition = x + '% ' + y + '%';
+    function updateGallery(view) {
+        if (view === 'mobile') {
+            var x = document.getElementById('gallery-mx').value;
+            var y = document.getElementById('gallery-my').value;
+            document.getElementById('gallery-mx-val').textContent = x + '%';
+            document.getElementById('gallery-my-val').textContent = y + '%';
+            var img = document.getElementById('gallery-img-m');
+            if (img) img.style.objectPosition = x + '% ' + y + '%';
+        } else {
+            var x = document.getElementById('gallery-x').value;
+            var y = document.getElementById('gallery-y').value;
+            document.getElementById('gallery-x-val').textContent = x + '%';
+            document.getElementById('gallery-y-val').textContent = y + '%';
+            var img = document.getElementById('gallery-img');
+            if (img) img.style.objectPosition = x + '% ' + y + '%';
+        }
     }
 
     async function saveAll() {
@@ -417,10 +473,11 @@
 
     async function saveGallery() {
         if (selectedPhoto < 0) return;
-        var btn = document.querySelectorAll('.save-btn')[2];
+        var btn = document.querySelector('#tab-gallery .save-btn');
         btn.disabled = true; btn.textContent = 'Salvando...';
         try {
             galleryData.photos[selectedPhoto].position = document.getElementById('gallery-x').value + '% ' + document.getElementById('gallery-y').value + '%';
+            galleryData.photos[selectedPhoto].position_mobile = document.getElementById('gallery-mx').value + '% ' + document.getElementById('gallery-my').value + '%';
             var result = await ghSave('content/gallery.json', JSON.stringify(galleryData, null, 2) + '\n', gallerySha, 'Ajuste posição foto galeria via painel visual');
             gallerySha = result.content.sha;
             setStatus('ok', 'Foto salva!', 'status-gallery');

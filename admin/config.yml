@@ -195,6 +195,7 @@ collections:
                 required: false
                 default: "50% 50%"
                 hint: "X% Y%. Ex: 50% 30% (centro, mais pro topo). 50% 50% = centro"
+              - { label: "Posição Mobile", name: "position_mobile", widget: "hidden", required: false }
 
   # ===== VISTO E APROVADO POR =====
   - name: "social_proof"
