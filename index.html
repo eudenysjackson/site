@@ -89,32 +89,32 @@
                 </button>
             </div>
         </div>
+    </nav>
 
-        <!-- Mobile Sidebar -->
-        <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden" style="opacity:0;transition:opacity .3s;"></div>
-        <div id="mobile-menu" class="fixed top-0 right-0 h-full w-72 z-50 bg-white shadow-2xl md:hidden" style="transform:translateX(100%);transition:transform .3s ease;">
-            <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
-                <span class="font-bold text-dj-indigo text-sm tracking-wide">MENU</span>
-                <button id="sidebar-close" class="p-2" aria-label="Fechar">
-                    <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-            <div class="px-5 py-6 space-y-4">
-                <a href="#home" class="mobile-nav-link" data-i18n="nav.home">Início</a>
-                <a href="#sobre" class="mobile-nav-link" data-i18n="nav.about">Sobre</a>
-                <a href="#agenda" class="mobile-nav-link" data-i18n="nav.schedule">Agenda</a>
-                <a href="#midias" class="mobile-nav-link" data-i18n="nav.media">Mídias</a>
-                <a href="#contato" class="mobile-nav-link" data-i18n="nav.contact">Contato</a>
-                <div class="flex items-center gap-2 pt-4 border-t border-slate-200">
-                    <button class="lang-btn !text-slate-500" data-lang="pt">PT</button>
-                    <span class="text-slate-300">|</span>
-                    <button class="lang-btn !text-slate-500" data-lang="en">EN</button>
-                    <span class="text-slate-300">|</span>
-                    <button class="lang-btn !text-slate-500" data-lang="es">ES</button>
-                </div>
+    <!-- Mobile Sidebar (outside nav to avoid inherited styles) -->
+    <div id="mobile-overlay" class="fixed inset-0 hidden md:hidden" style="background:rgba(0,0,0,0.5);z-index:9998;opacity:0;transition:opacity .3s;"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-72 md:hidden" style="z-index:9999;background:#ffffff;box-shadow:-4px 0 25px rgba(0,0,0,0.15);transform:translateX(100%);transition:transform .3s ease;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #e2e8f0;">
+            <span style="font-weight:700;color:#4338ca;font-size:0.875rem;letter-spacing:0.05em;">MENU</span>
+            <button id="sidebar-close" style="padding:0.5rem;background:none;border:none;cursor:pointer;" aria-label="Fechar">
+                <svg class="w-6 h-6" style="color:#64748b;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div style="padding:1.5rem 1.25rem;display:flex;flex-direction:column;gap:1rem;">
+            <a href="#home" class="mobile-nav-link" data-i18n="nav.home">Início</a>
+            <a href="#sobre" class="mobile-nav-link" data-i18n="nav.about">Sobre</a>
+            <a href="#agenda" class="mobile-nav-link" data-i18n="nav.schedule">Agenda</a>
+            <a href="#midias" class="mobile-nav-link" data-i18n="nav.media">Mídias</a>
+            <a href="#contato" class="mobile-nav-link" data-i18n="nav.contact">Contato</a>
+            <div style="display:flex;align-items:center;gap:0.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;">
+                <button class="lang-btn" style="color:#64748b;" data-lang="pt">PT</button>
+                <span style="color:#cbd5e1;">|</span>
+                <button class="lang-btn" style="color:#64748b;" data-lang="en">EN</button>
+                <span style="color:#cbd5e1;">|</span>
+                <button class="lang-btn" style="color:#64748b;" data-lang="es">ES</button>
             </div>
         </div>
-    </nav>
+    </div>
 
     <!-- ========== HERO ========== -->
     <section id="home" class="hero-section">
