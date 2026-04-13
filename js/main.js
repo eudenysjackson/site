@@ -279,6 +279,22 @@ function renderShows() {
     emptyState.classList.add('hidden');
     container.classList.remove('hidden');
 
+    // If any show has a banner, remove the glass wrapper padding/bg
+    var wrapper = container.closest('.glass-strong');
+    var hasBanners = futureShows.some(function(s) { return s.banner; });
+    if (wrapper) {
+        if (hasBanners) {
+            wrapper.style.padding = '0';
+            wrapper.style.background = 'transparent';
+            wrapper.style.boxShadow = 'none';
+            wrapper.style.border = 'none';
+            wrapper.style.backdropFilter = 'none';
+            wrapper.style.webkitBackdropFilter = 'none';
+        } else {
+            wrapper.style.cssText = '';
+        }
+    }
+
     container.innerHTML = futureShows.map(show => {
         const date = new Date(show.date + 'T12:00:00');
         const day = date.getDate();
