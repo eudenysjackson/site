@@ -191,11 +191,14 @@ async function loadSocialProof() {
     grid.innerHTML = data.logos.map(function(logo) {
         var name = escapeHTML(logo.name);
         var hasLink = logo.url && logo.url.trim();
+        var posStyle = '';
+        if (logo.position) posStyle += 'object-position:' + logo.position + ';';
+        if (logo.scale && logo.scale !== 100) posStyle += 'transform:scale(' + (logo.scale / 100) + ');';
         var openTag = hasLink ? '<a href="' + escapeHTML(logo.url.trim()) + '" target="_blank" rel="noopener" class="glass media-logo-card p-6 block">' : '<div class="glass media-logo-card p-6">';
         var closeTag = hasLink ? '</a>' : '</div>';
         if (logo.image) {
             return openTag +
-                '<img src="' + escapeHTML(fixPath(logo.image)) + '" alt="' + name + '" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity">' +
+                '<img src="' + escapeHTML(fixPath(logo.image)) + '" alt="' + name + '" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity" style="' + posStyle + '">' +
                 closeTag;
         }
         return openTag +
@@ -332,9 +335,11 @@ function renderShows() {
                     </div>`;
             }
 
+            var bannerPosStyle = show.banner_position ? 'object-position:' + show.banner_position + ';' : '';
+
             return `
                 <div class="show-card-banner fade-in visible">
-                    <img src="${fixImagePath(show.banner)}" alt="${escapeHTML(show.venue)}" class="show-banner-img">
+                    <img src="${fixImagePath(show.banner)}" alt="${escapeHTML(show.venue)}" class="show-banner-img" style="${bannerPosStyle}">
                     <div class="show-banner-overlay">
                         ${infoOverlay}
                         ${bannerTicketBtn}

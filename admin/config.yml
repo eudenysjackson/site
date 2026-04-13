@@ -162,6 +162,7 @@ collections:
                 widget: "boolean"
                 default: false
                 hint: "Marque para mostrar só o banner + botão, sem data/local/horário."
+              - { label: "Posição do Banner", name: "banner_position", widget: "hidden", required: false }
               - label: "Status"
                 name: "status"
                 widget: "select"
@@ -211,6 +212,8 @@ collections:
               - { label: "Nome", name: "name", widget: "string", hint: "Ex: Rede Globo" }
               - { label: "Logo (imagem)", name: "image", widget: "image", hint: "PNG com fundo transparente. Recomendado: 200x100px" }
               - { label: "Link (URL)", name: "url", widget: "string", required: false, hint: "URL ao clicar no logo. Ex: https://globo.com. Deixe vazio para não ter link." }
+              - { label: "Posição", name: "position", widget: "hidden", required: false }
+              - { label: "Escala", name: "scale", widget: "hidden", required: false }
 
   # ===== VÍDEOS =====
   - name: "videos"

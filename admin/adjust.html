@@ -51,6 +51,8 @@
             <button class="tab active" onclick="showTab('hero')">Hero Desktop</button>
             <button class="tab" onclick="showTab('mobile')">Hero Mobile</button>
             <button class="tab" onclick="showTab('gallery')">Galeria</button>
+            <button class="tab" onclick="showTab('logos')">Logos</button>
+            <button class="tab" onclick="showTab('banners')">Banners</button>
         </div>
 
         <!-- HERO DESKTOP -->
@@ -116,6 +118,59 @@
                 <div class="status" id="status-gallery"></div>
             </div>
         </div>
+        <!-- LOGOS -->
+        <div id="tab-logos" class="section" style="display:none">
+            <h2>Logos — Social Proof</h2>
+            <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Clique em um logo para ajustar a posição.</p>
+            <div class="gallery-grid" id="logos-grid"></div>
+            <div id="logos-editor" style="display:none">
+                <div class="preview-box gallery" id="logos-preview" style="background:#fff;"></div>
+                <div class="controls">
+                    <div class="control-row">
+                        <label>← Horizontal →</label>
+                        <input type="range" id="logos-x" min="0" max="100" value="50" oninput="updateLogos()">
+                        <span class="value" id="logos-x-val">50%</span>
+                    </div>
+                    <div class="control-row">
+                        <label>↑ Vertical ↓</label>
+                        <input type="range" id="logos-y" min="0" max="100" value="50" oninput="updateLogos()">
+                        <span class="value" id="logos-y-val">50%</span>
+                    </div>
+                    <div class="control-row">
+                        <label>Escala</label>
+                        <input type="range" id="logos-scale" min="10" max="200" value="100" oninput="updateLogos()">
+                        <span class="value" id="logos-scale-val">100%</span>
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveLogos()">Salvar posição do logo</button>
+                <div class="status" id="status-logos"></div>
+            </div>
+        </div>
+
+        <!-- BANNERS -->
+        <div id="tab-banners" class="section" style="display:none">
+            <h2>Banners de Shows</h2>
+            <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Clique em um banner para ajustar a posição.</p>
+            <div class="gallery-grid" id="banners-grid"></div>
+            <div id="banners-editor" style="display:none">
+                <div class="preview-box hero" id="banners-preview"></div>
+                <div class="controls">
+                    <div class="control-row">
+                        <label>← Horizontal →</label>
+                        <input type="range" id="banners-x" min="0" max="100" value="50" oninput="updateBanners()">
+                        <span class="value" id="banners-x-val">50%</span>
+                    </div>
+                    <div class="control-row">
+                        <label>↑ Vertical ↓</label>
+                        <input type="range" id="banners-y" min="0" max="100" value="50" oninput="updateBanners()">
+                        <span class="value" id="banners-y-val">50%</span>
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveBanners()">Salvar posição do banner</button>
+                <div class="status" id="status-banners"></div>
+            </div>
+            <div id="banners-empty" class="no-img" style="display:none;">Nenhum show com banner configurado</div>
+        </div>
     </div>
 
     <script>
@@ -124,9 +179,15 @@
     var token = '';
     var siteData = null;
     var galleryData = null;
+    var socialData = null;
+    var showsData = null;
     var siteSha = '';
     var gallerySha = '';
+    var socialSha = '';
+    var showsSha = '';
     var selectedPhoto = -1;
+    var selectedLogo = -1;
+    var selectedBanner = -1;
 
     // Get token from Sveltia CMS or prompt
     function getToken() {
@@ -194,9 +255,21 @@
             gallerySha = galleryFile.sha;
             galleryData = JSON.parse(decodeURIComponent(escape(atob(galleryFile.content.replace(/\n/g, '')))));
 
+            // Load social_proof.json
+            var socialFile = await ghFetch('content/social_proof.json');
+            socialSha = socialFile.sha;
+            socialData = JSON.parse(decodeURIComponent(escape(atob(socialFile.content.replace(/\n/g, '')))));
+
+            // Load shows.json
+            var showsFile = await ghFetch('content/shows.json');
+            showsSha = showsFile.sha;
+            showsData = JSON.parse(decodeURIComponent(escape(atob(showsFile.content.replace(/\n/g, '')))));
+
             renderHero();
             renderMobile();
             renderGalleryGrid();
+            renderLogosGrid();
+            renderBannersGrid();
         } catch(e) {
             document.querySelector('.container').innerHTML = '<div class="loading">Erro: ' + e.message + '</div>';
         }
@@ -318,12 +391,133 @@
         setTimeout(function() { els.forEach(function(eid) { var el = document.getElementById(eid); if (el) el.textContent = ''; }); }, 3000);
     }
 
+    // === LOGOS ===
+    function renderLogosGrid() {
+        var grid = document.getElementById('logos-grid');
+        if (!socialData || !socialData.logos || !socialData.logos.length) {
+            grid.innerHTML = '<div class="no-img">Nenhum logo configurado</div>';
+            return;
+        }
+        grid.innerHTML = socialData.logos.map(function(l, i) {
+            return '<div class="gallery-thumb" onclick="selectLogo(' + i + ')" id="lthumb-' + i + '" style="background:#fff;"><img src="' + fixImg(l.image) + '" style="object-fit:contain;padding:1rem;"></div>';
+        }).join('');
+    }
+
+    function selectLogo(i) {
+        selectedLogo = i;
+        document.querySelectorAll('#logos-grid .gallery-thumb').forEach(function(el) { el.classList.remove('active'); });
+        document.getElementById('lthumb-' + i).classList.add('active');
+        document.getElementById('logos-editor').style.display = 'block';
+        var logo = socialData.logos[i];
+        var box = document.getElementById('logos-preview');
+        box.innerHTML = '<img id="logos-img" src="' + fixImg(logo.image) + '" style="object-fit:contain;padding:1rem;">';
+        var pos = parsePos(logo.position);
+        document.getElementById('logos-x').value = pos[0];
+        document.getElementById('logos-y').value = pos[1];
+        var scale = logo.scale || 100;
+        document.getElementById('logos-scale').value = scale;
+        updateLogos();
+    }
+
+    function updateLogos() {
+        var x = document.getElementById('logos-x').value;
+        var y = document.getElementById('logos-y').value;
+        var s = document.getElementById('logos-scale').value;
+        document.getElementById('logos-x-val').textContent = x + '%';
+        document.getElementById('logos-y-val').textContent = y + '%';
+        document.getElementById('logos-scale-val').textContent = s + '%';
+        var img = document.getElementById('logos-img');
+        if (img) {
+            img.style.objectPosition = x + '% ' + y + '%';
+            img.style.transform = 'scale(' + (s / 100) + ')';
+        }
+    }
+
+    async function saveLogos() {
+        if (selectedLogo < 0) return;
+        var btn = document.querySelector('#tab-logos .save-btn');
+        btn.disabled = true; btn.textContent = 'Salvando...';
+        try {
+            socialData.logos[selectedLogo].position = document.getElementById('logos-x').value + '% ' + document.getElementById('logos-y').value + '%';
+            socialData.logos[selectedLogo].scale = parseInt(document.getElementById('logos-scale').value);
+            var result = await ghSave('content/social_proof.json', JSON.stringify(socialData, null, 2) + '\n', socialSha, 'Ajuste posição logo via painel visual');
+            socialSha = result.content.sha;
+            setStatus('ok', 'Logo salvo!', 'status-logos');
+        } catch(e) {
+            setStatus('err', e.message, 'status-logos');
+        }
+        btn.disabled = false; btn.textContent = 'Salvar posição do logo';
+    }
+
+    // === BANNERS ===
+    function renderBannersGrid() {
+        var grid = document.getElementById('banners-grid');
+        var emptyEl = document.getElementById('banners-empty');
+        if (!showsData || !showsData.shows) {
+            grid.innerHTML = '';
+            emptyEl.style.display = 'block';
+            return;
+        }
+        var withBanner = showsData.shows.filter(function(s) { return s.banner; });
+        if (!withBanner.length) {
+            grid.innerHTML = '';
+            emptyEl.style.display = 'block';
+            return;
+        }
+        emptyEl.style.display = 'none';
+        // Map indices to original shows array
+        grid.innerHTML = showsData.shows.map(function(s, i) {
+            if (!s.banner) return '';
+            var label = s.venue || ('Show ' + (i + 1));
+            return '<div class="gallery-thumb" onclick="selectBanner(' + i + ')" id="bthumb-' + i + '"><img src="' + fixImg(s.banner) + '"><div style="position:absolute;bottom:4px;left:4px;right:4px;font-size:0.7rem;color:#fff;background:rgba(0,0,0,0.6);padding:2px 6px;border-radius:4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + label + '</div></div>';
+        }).join('');
+    }
+
+    function selectBanner(i) {
+        selectedBanner = i;
+        document.querySelectorAll('#banners-grid .gallery-thumb').forEach(function(el) { el.classList.remove('active'); });
+        document.getElementById('bthumb-' + i).classList.add('active');
+        document.getElementById('banners-editor').style.display = 'block';
+        var show = showsData.shows[i];
+        var box = document.getElementById('banners-preview');
+        box.innerHTML = '<img id="banners-img" src="' + fixImg(show.banner) + '">';
+        var pos = parsePos(show.banner_position);
+        document.getElementById('banners-x').value = pos[0];
+        document.getElementById('banners-y').value = pos[1];
+        updateBanners();
+    }
+
+    function updateBanners() {
+        var x = document.getElementById('banners-x').value;
+        var y = document.getElementById('banners-y').value;
+        document.getElementById('banners-x-val').textContent = x + '%';
+        document.getElementById('banners-y-val').textContent = y + '%';
+        var img = document.getElementById('banners-img');
+        if (img) img.style.objectPosition = x + '% ' + y + '%';
+    }
+
+    async function saveBanners() {
+        if (selectedBanner < 0) return;
+        var btn = document.querySelector('#tab-banners .save-btn');
+        btn.disabled = true; btn.textContent = 'Salvando...';
+        try {
+            showsData.shows[selectedBanner].banner_position = document.getElementById('banners-x').value + '% ' + document.getElementById('banners-y').value + '%';
+            var result = await ghSave('content/shows.json', JSON.stringify(showsData, null, 2) + '\n', showsSha, 'Ajuste posição banner via painel visual');
+            showsSha = result.content.sha;
+            setStatus('ok', 'Banner salvo!', 'status-banners');
+        } catch(e) {
+            setStatus('err', e.message, 'status-banners');
+        }
+        btn.disabled = false; btn.textContent = 'Salvar posição do banner';
+    }
+
     function showTab(name) {
-        ['hero', 'mobile', 'gallery'].forEach(function(t) {
+        ['hero', 'mobile', 'gallery', 'logos', 'banners'].forEach(function(t) {
             document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
         });
+        var tabMap = { hero: 'Desktop', mobile: 'Mobile', gallery: 'Galeria', logos: 'Logos', banners: 'Banners' };
         document.querySelectorAll('.tab').forEach(function(el) {
-            el.classList.toggle('active', el.textContent.toLowerCase().indexOf(name) >= 0 || (name === 'mobile' && el.textContent.indexOf('Mobile') >= 0) || (name === 'hero' && el.textContent.indexOf('Desktop') >= 0) || (name === 'gallery' && el.textContent.indexOf('Galeria') >= 0));
+            el.classList.toggle('active', el.textContent.indexOf(tabMap[name]) >= 0);
         });
     }
 
