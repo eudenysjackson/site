@@ -1,6 +1,16 @@
 {
   "shows": [
     {
+      "date": "2026-07-11",
+      "time": "19h",
+      "venue": "Teatro Raul Cortez",
+      "city": "Rio de Janeiro",
+      "ticket_url": "https://www.sympla.com.br/evento/tributo-a-michael-jackson-na-ponta-dos-pes/3286406",
+      "banner": "/images/uploads/1600x838.png",
+      "hide_info": false,
+      "status": "confirmado"
+    },
+    {
       "date": "2026-07-25",
       "time": "18h",
       "venue": "Teatro Mário Lago",
