@@ -7,7 +7,7 @@
       "city": "Rio de Janeiro",
       "ticket_url": "https://www.sympla.com.br/evento/tributo-a-michael-jackson-na-ponta-dos-pes/3286406",
       "banner": "/images/uploads/1600x838.png",
-      "hide_info": false,
+      "hide_info": true,
       "status": "confirmado"
     },
     {
