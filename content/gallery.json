@@ -1,19 +1,24 @@
 {
   "photos": [
     {
-      "image": "/images/uploads/_MG_1275.jpg",
-      "caption": "",
-      "position": "50% 100%"
-    },
-    {
-      "image": "/images/uploads/_MG_1425.jpg",
-      "caption": "",
-      "position": ""
-    },
-    {
       "image": "/images/uploads/3.png",
       "caption": "",
       "position": ""
+    },
+    {
+      "image": "/images/uploads/1.png",
+      "caption": "",
+      "position": "50% 50%"
+    },
+    {
+      "image": "/images/uploads/5.png",
+      "caption": "",
+      "position": "50% 50%"
+    },
+    {
+      "image": "/images/uploads/1.png",
+      "caption": "",
+      "position": "50% 50%"
     }
   ]
 }
