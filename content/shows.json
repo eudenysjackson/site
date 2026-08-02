@@ -1,13 +1,13 @@
 {
   "shows": [
     {
-      "date": "2026-07-25",
-      "time": "18h",
+      "date": "2026-11-14",
+      "time": "",
       "venue": "Teatro Mário Lago",
-      "city": "Rio de Janeiro",
-      "ticket_url": "https://funarj.eleventickets.com/#!/apresentacao/b2a18b7ea087ae9268d6d11277e9548700ca1d96",
-      "banner": "/images/uploads/feed tml.png",
-      "hide_info": true,
+      "city": "Rio De Janeiro",
+      "ticket_url": "https://funarj.eleventickets.com/#!/apresentacao/631a2454d3f3a53a44381b800ead1b159381a204",
+      "banner": "",
+      "hide_info": false,
       "status": "confirmado"
     }
   ]
