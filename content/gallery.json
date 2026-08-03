@@ -1,24 +1,116 @@
 {
   "photos": [
     {
-      "image": "/images/uploads/3.png",
-      "caption": "",
-      "position": ""
+      "image": "/images/uploads/gallery-rotated-1785720852923-1785720852923.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
     },
     {
-      "image": "/images/uploads/1.png",
-      "caption": "",
-      "position": "50% 50%"
+      "image": "/images/uploads/gallery-dumpdenys-1-1785720052489.jpg",
+      "caption": "Bad Tour",
+      "position": "29% 25%",
+      "position_mobile": "29% 25%",
+      "scale": 100
     },
     {
-      "image": "/images/uploads/5.png",
-      "caption": "",
-      "position": "50% 50%"
+      "image": "/images/uploads/gallery-1224-1785720494268.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
     },
     {
-      "image": "/images/uploads/1.png",
-      "caption": "",
-      "position": "50% 50%"
+      "image": "/images/uploads/gallery-1275-1785720587954.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-2330-1785721047082.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-dumpdenys-2-1785720058609.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-1409-1785720176126.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 70%",
+      "position_mobile": "50% 70%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-rotated-1785719005251-1785719005251.jpg",
+      "caption": "Bad Tour",
+      "position": "9% 50%",
+      "position_mobile": "9% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-1425-1785720650698.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-1450-1785720577532.jpg",
+      "caption": "Bad Tour",
+      "position": "53% 93%",
+      "position_mobile": "53% 93%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-1382-1785720596258.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-1434-1785720643176.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-rotated-1785720824857-1785720824858.jpg",
+      "caption": "Bad Tour",
+      "position": "33% 51%",
+      "position_mobile": "33% 51%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-dumpdenys-3-1785720064343.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-rotated-1785720799215-1785720799216.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
+    },
+    {
+      "image": "/images/uploads/gallery-rotated-1785720774415-1785720774415.jpg",
+      "caption": "Bad Tour",
+      "position": "50% 50%",
+      "position_mobile": "50% 50%",
+      "scale": 100
     }
   ]
 }
