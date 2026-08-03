@@ -154,6 +154,34 @@ async function loadSiteConfig() {
         }
     }
 
+    // Contact email / phone / CNPJ from CMS
+    if (data.email) {
+        var emailEl = document.getElementById('contact-email');
+        if (emailEl) {
+            emailEl.href = 'mailto:' + data.email;
+            emailEl.textContent = data.email;
+        }
+        window.__DJ_CONTACT_EMAIL__ = data.email;
+    }
+    if (data.phone) {
+        var phoneEl = document.getElementById('contact-phone');
+        if (phoneEl) {
+            var digits = String(data.phone).replace(/\D/g, '');
+            if (digits && !digits.startsWith('55')) digits = '55' + digits;
+            phoneEl.href = digits ? 'https://wa.me/' + digits : phoneEl.href;
+            phoneEl.textContent = data.phone;
+        }
+    }
+    if (data.cnpj) {
+        var cnpjEl = document.getElementById('footer-cnpj');
+        if (cnpjEl) cnpjEl.textContent = 'CNPJ ' + data.cnpj;
+    }
+    if (data.site_name) {
+        document.title = data.tagline
+            ? data.site_name + ' | ' + data.tagline
+            : data.site_name;
+    }
+
     // Set social links
     if (data.social) {
         document.querySelectorAll('[data-social]').forEach(el => {
@@ -727,7 +755,8 @@ function initContactForm() {
             const data = Object.fromEntries(formData);
             const subject = encodeURIComponent('[Site] ' + (data.subject || 'Contato') + ' - ' + data.name + ' ' + (data.lastname || ''));
             const body = encodeURIComponent('Nome: ' + data.name + ' ' + (data.lastname || '') + '\nEmail: ' + data.email + '\nAssunto: ' + (data.subject || 'N/A') + '\n\nMensagem:\n' + data.message);
-            window.location.href = 'mailto:denysjackson@denysjackson.com.br?subject=' + subject + '&body=' + body;
+            var contactEmail = window.__DJ_CONTACT_EMAIL__ || 'contato@denysjackson.com.br';
+            window.location.href = 'mailto:' + contactEmail + '?subject=' + subject + '&body=' + body;
         }
 
         btn.disabled = false;
