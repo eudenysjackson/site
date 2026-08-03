@@ -23,11 +23,53 @@
             transition: background 0.2s;
         }
         .adjust-link:hover { background: #3730a3; }
+        .local-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            background: #b45309;
+            color: #fff;
+            text-align: center;
+            padding: 10px 16px;
+            font-family: system-ui, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        body.local-mode { padding-top: 44px; }
     </style>
 </head>
 <body>
-    <a href="adjust.html" class="adjust-link">📐 Ajustar Imagens</a>
-    <!-- Sveltia CMS (token auth - sem necessidade de OAuth server) -->
-    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <div id="local-banner" class="local-banner" style="display:none;">
+        Modo local — alterações ficam só no seu computador. Site oficial só muda após git push.
+    </div>
+    <a href="adjust.html" class="adjust-link" title="Hero, logos e banners">📐 Ajustar Hero/Logos</a>
+    <script>
+        // Local: Decap + decap-server (salva arquivos sem seletor de pasta).
+        // Online: Sveltia CMS.
+        window.__DJ_LOCAL__ = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+        if (window.__DJ_LOCAL__) {
+            document.body.classList.add('local-mode');
+            document.getElementById('local-banner').style.display = 'block';
+        }
+        if (!window.__DJ_LOCAL__) {
+            window.CMS_MANUAL_INIT = true;
+        }
+
+        var cms = document.createElement('script');
+        cms.async = false;
+        cms.src = window.__DJ_LOCAL__
+            ? 'https://unpkg.com/decap-cms@3.3.0/dist/decap-cms.js'
+            : 'https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js';
+        cms.onload = function () {
+            var ext = document.createElement('script');
+            ext.async = false;
+            ext.src = 'cms-extensions.js?v=20260802k';
+            document.body.appendChild(ext);
+        };
+        document.body.appendChild(cms);
+    </script>
 </body>
 </html>

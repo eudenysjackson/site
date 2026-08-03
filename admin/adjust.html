@@ -16,8 +16,18 @@
         .preview-box { position: relative; width: 100%; border-radius: 8px; overflow: hidden; background: #1a1040; margin-bottom: 1rem; }
         .preview-box.hero { aspect-ratio: 16/9; }
         .preview-box.hero-mobile { aspect-ratio: 9/16; max-width: 300px; margin: 0 auto 1rem; }
-        .preview-box.gallery { aspect-ratio: 1/1; max-width: 300px; }
-        .preview-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .preview-box.gallery { aspect-ratio: 4 / 5; max-width: 320px; margin: 0 auto 1rem; cursor: grab; touch-action: none; }
+        .preview-box.gallery:active { cursor: grabbing; }
+        .preview-box .crop-grid {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(to right, rgba(255,255,255,0.28) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.28) 1px, transparent 1px);
+            background-size: calc(100% / 3) 100%, 100% calc(100% / 3);
+        }
+        .preview-box img { width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; pointer-events: none; }
         .controls { display: flex; flex-direction: column; gap: 0.75rem; }
         .control-row { display: flex; align-items: center; gap: 1rem; }
         .control-row label { min-width: 120px; font-size: 0.85rem; font-weight: 600; color: #64748b; }
@@ -30,11 +40,11 @@
         .status.ok { color: #16a34a; }
         .status.err { color: #dc2626; }
         .loading { text-align: center; padding: 3rem; color: #94a3b8; }
-        .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .tab { padding: 0.5rem 1.25rem; border-radius: 8px; background: #e2e8f0; cursor: pointer; font-size: 0.85rem; font-weight: 600; border: none; }
         .tab.active { background: #4338ca; color: white; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
-        .gallery-thumb { border-radius: 8px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: border-color 0.2s; aspect-ratio: 1; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .gallery-thumb { border-radius: 8px; overflow: hidden; cursor: pointer; border: 3px solid transparent; transition: border-color 0.2s; aspect-ratio: 4 / 5; }
         .gallery-thumb.active { border-color: #4338ca; }
         .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .sub-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
@@ -46,6 +56,7 @@
 <body>
     <div class="header">
         <h1>Ajustar Posição das Imagens</h1>
+        <a href="gallery-upload.html" style="color:#93c5fd;text-decoration:none;font-size:0.85rem;margin-right:1rem;">📸 Galeria 4:5</a>
         <a href="/admin/">← Voltar ao Admin</a>
     </div>
 
@@ -100,8 +111,11 @@
 
         <!-- GALLERY -->
         <div id="tab-gallery" class="section" style="display:none">
-            <h2>Fotos da Galeria</h2>
-            <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">Clique em uma foto para ajustar a posição.</p>
+            <h2>Fotos da Galeria (4:5)</h2>
+            <p style="font-size:0.85rem;color:#64748b;margin-bottom:1rem;">
+                Para enviar fotos novas, use <a href="gallery-upload.html" style="color:#4338ca;font-weight:600;">Galeria 4:5</a>.
+                Aqui você ajusta a centralização das fotos já publicadas.
+            </p>
             <div class="gallery-grid" id="gallery-grid"></div>
             <div id="gallery-editor" style="display:none">
                 <div class="sub-tabs">
@@ -109,7 +123,7 @@
                     <button class="sub-tab" onclick="setGalleryView('mobile')">Mobile</button>
                 </div>
                 <div id="gallery-controls-desktop">
-                    <div class="preview-box gallery" id="gallery-preview"></div>
+                    <div class="preview-box gallery" id="gallery-preview"><div class="crop-grid"></div></div>
                     <div class="controls">
                         <div class="control-row">
                             <label>← Horizontal →</label>
@@ -124,7 +138,7 @@
                     </div>
                 </div>
                 <div id="gallery-controls-mobile" style="display:none">
-                    <div class="preview-box hero-mobile" id="gallery-preview-m"></div>
+                    <div class="preview-box gallery" id="gallery-preview-m"><div class="crop-grid"></div></div>
                     <div class="controls">
                         <div class="control-row">
                             <label>← Horizontal →</label>
@@ -244,7 +258,8 @@
     </div>
 
     <script>
-    var REPO = 'eudenysjackson/site';
+    var IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    var REPO = 'eudenysjackson/sitedenysjackson';
     var BRANCH = 'main';
     var token = '';
     var siteData = null;
@@ -258,6 +273,60 @@
     var selectedPhoto = -1;
     var selectedLogo = -1;
     var selectedBanner = -1;
+    var galleryPan = null;
+
+    function galleryPreviewHtml(src, imgId) {
+        return '<img id="' + imgId + '" src="' + src + '"><div class="crop-grid"></div>';
+    }
+
+    function bindGalleryPan(frameId, xId, yId, viewKey) {
+        var frame = document.getElementById(frameId);
+        if (!frame || frame.dataset.panBound) return;
+        frame.dataset.panBound = '1';
+        function start(e) {
+            if (!document.getElementById(xId)) return;
+            e.preventDefault();
+            var pt = e.touches ? e.touches[0] : e;
+            galleryPan = {
+                xId: xId,
+                yId: yId,
+                viewKey: viewKey,
+                startX: pt.clientX,
+                startY: pt.clientY,
+                startPosX: parseInt(document.getElementById(xId).value, 10),
+                startPosY: parseInt(document.getElementById(yId).value, 10),
+                w: frame.offsetWidth,
+                h: frame.offsetHeight
+            };
+        }
+        frame.addEventListener('mousedown', start);
+        frame.addEventListener('touchstart', start, { passive: false });
+    }
+
+    document.addEventListener('mousemove', function(e) {
+        if (!galleryPan) return;
+        var dx = e.clientX - galleryPan.startX;
+        var dy = e.clientY - galleryPan.startY;
+        var x = Math.max(0, Math.min(100, Math.round(galleryPan.startPosX - (dx / galleryPan.w) * 100)));
+        var y = Math.max(0, Math.min(100, Math.round(galleryPan.startPosY - (dy / galleryPan.h) * 100)));
+        document.getElementById(galleryPan.xId).value = x;
+        document.getElementById(galleryPan.yId).value = y;
+        updateGallery(galleryPan.viewKey);
+    });
+    document.addEventListener('touchmove', function(e) {
+        if (!galleryPan) return;
+        e.preventDefault();
+        var pt = e.touches[0];
+        var dx = pt.clientX - galleryPan.startX;
+        var dy = pt.clientY - galleryPan.startY;
+        var x = Math.max(0, Math.min(100, Math.round(galleryPan.startPosX - (dx / galleryPan.w) * 100)));
+        var y = Math.max(0, Math.min(100, Math.round(galleryPan.startPosY - (dy / galleryPan.h) * 100)));
+        document.getElementById(galleryPan.xId).value = x;
+        document.getElementById(galleryPan.yId).value = y;
+        updateGallery(galleryPan.viewKey);
+    }, { passive: false });
+    document.addEventListener('mouseup', function() { galleryPan = null; });
+    document.addEventListener('touchend', function() { galleryPan = null; });
 
     // Get token from Sveltia CMS or prompt
     function getToken() {
@@ -287,6 +356,9 @@
     }
 
     async function ghSave(path, content, sha, message) {
+        if (IS_LOCAL) {
+            throw new Error('Modo local: este painel não publica no GitHub. Use o CMS principal (Publicar) e depois git push.');
+        }
         var res = await fetch('https://api.github.com/repos/' + REPO + '/contents/' + path, {
             method: 'PUT',
             headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
@@ -298,42 +370,57 @@
 
     function fixImg(p) {
         if (!p) return '';
-        // Ensure path starts with / for root-relative URL
-        return p.startsWith('/') ? p : '/' + p;
+        var raw = String(p).trim();
+        if (/^https?:\/\//i.test(raw)) return raw;
+        var pathPart = raw.startsWith('/') ? raw.substring(1) : raw;
+        var encoded = pathPart.split('/').map(function(seg) {
+            if (!seg) return seg;
+            try { return encodeURIComponent(decodeURIComponent(seg)); } catch (e) { return encodeURIComponent(seg); }
+        }).join('/');
+        return '/' + encoded;
     }
 
     function parsePos(pos) {
         if (!pos) return [50, 50];
         var parts = pos.replace(/%/g, '').trim().split(/\s+/);
-        var x = parseInt(parts[0]) || 50;
-        var y = parseInt(parts[1]) || 50;
-        return [x, y];
+        var x = parseInt(parts[0], 10);
+        var y = parseInt(parts[1], 10);
+        return [isNaN(x) ? 50 : x, isNaN(y) ? 50 : y];
+    }
+
+    async function loadLocalJson(path) {
+        var res = await fetch('/' + path + '?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('Arquivo local não encontrado: ' + path);
+        return await res.json();
     }
 
     async function init() {
-        token = getToken();
-        if (!token) { document.querySelector('.container').innerHTML = '<div class="loading">Token necessário para continuar.</div>'; return; }
-
         try {
-            // Load site.json
-            var siteFile = await ghFetch('content/site.json');
-            siteSha = siteFile.sha;
-            siteData = JSON.parse(decodeURIComponent(escape(atob(siteFile.content.replace(/\n/g, '')))));
+            if (IS_LOCAL) {
+                siteData = await loadLocalJson('content/site.json');
+                galleryData = await loadLocalJson('content/gallery.json');
+                socialData = await loadLocalJson('content/social_proof.json');
+                showsData = await loadLocalJson('content/shows.json');
+            } else {
+                token = getToken();
+                if (!token) { document.querySelector('.container').innerHTML = '<div class="loading">Token necessário para continuar.</div>'; return; }
 
-            // Load gallery.json
-            var galleryFile = await ghFetch('content/gallery.json');
-            gallerySha = galleryFile.sha;
-            galleryData = JSON.parse(decodeURIComponent(escape(atob(galleryFile.content.replace(/\n/g, '')))));
+                var siteFile = await ghFetch('content/site.json');
+                siteSha = siteFile.sha;
+                siteData = JSON.parse(decodeURIComponent(escape(atob(siteFile.content.replace(/\n/g, '')))));
 
-            // Load social_proof.json
-            var socialFile = await ghFetch('content/social_proof.json');
-            socialSha = socialFile.sha;
-            socialData = JSON.parse(decodeURIComponent(escape(atob(socialFile.content.replace(/\n/g, '')))));
+                var galleryFile = await ghFetch('content/gallery.json');
+                gallerySha = galleryFile.sha;
+                galleryData = JSON.parse(decodeURIComponent(escape(atob(galleryFile.content.replace(/\n/g, '')))));
 
-            // Load shows.json
-            var showsFile = await ghFetch('content/shows.json');
-            showsSha = showsFile.sha;
-            showsData = JSON.parse(decodeURIComponent(escape(atob(showsFile.content.replace(/\n/g, '')))));
+                var socialFile = await ghFetch('content/social_proof.json');
+                socialSha = socialFile.sha;
+                socialData = JSON.parse(decodeURIComponent(escape(atob(socialFile.content.replace(/\n/g, '')))));
+
+                var showsFile = await ghFetch('content/shows.json');
+                showsSha = showsFile.sha;
+                showsData = JSON.parse(decodeURIComponent(escape(atob(showsFile.content.replace(/\n/g, '')))));
+            }
 
             renderHero();
             renderMobile();
@@ -392,10 +479,12 @@
         if (selectedPhoto >= 0) {
             var photo = galleryData.photos[selectedPhoto];
             if (view === 'mobile') {
-                document.getElementById('gallery-preview-m').innerHTML = '<img id="gallery-img-m" src="' + fixImg(photo.image) + '">';
+                document.getElementById('gallery-preview-m').innerHTML = galleryPreviewHtml(fixImg(photo.image), 'gallery-img-m');
+                bindGalleryPan('gallery-preview-m', 'gallery-mx', 'gallery-my', 'mobile');
                 updateGallery('mobile');
             } else {
-                document.getElementById('gallery-preview').innerHTML = '<img id="gallery-img" src="' + fixImg(photo.image) + '">';
+                document.getElementById('gallery-preview').innerHTML = galleryPreviewHtml(fixImg(photo.image), 'gallery-img');
+                bindGalleryPan('gallery-preview', 'gallery-x', 'gallery-y', 'desktop');
                 updateGallery('desktop');
             }
         }
@@ -408,12 +497,13 @@
         document.getElementById('gallery-editor').style.display = 'block';
         var photo = galleryData.photos[i];
         // Desktop
-        document.getElementById('gallery-preview').innerHTML = '<img id="gallery-img" src="' + fixImg(photo.image) + '">';
+        document.getElementById('gallery-preview').innerHTML = galleryPreviewHtml(fixImg(photo.image), 'gallery-img');
+        bindGalleryPan('gallery-preview', 'gallery-x', 'gallery-y', 'desktop');
         var pos = parsePos(photo.position);
         document.getElementById('gallery-x').value = pos[0];
         document.getElementById('gallery-y').value = pos[1];
-        // Mobile
-        document.getElementById('gallery-preview-m').innerHTML = '<img id="gallery-img-m" src="' + fixImg(photo.image) + '">';
+        document.getElementById('gallery-preview-m').innerHTML = galleryPreviewHtml(fixImg(photo.image), 'gallery-img-m');
+        bindGalleryPan('gallery-preview-m', 'gallery-mx', 'gallery-my', 'mobile');
         var posM = parsePos(photo.position_mobile || photo.position);
         document.getElementById('gallery-mx').value = posM[0];
         document.getElementById('gallery-my').value = posM[1];

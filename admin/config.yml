@@ -2,11 +2,17 @@
 # Sveltia CMS Configuration (GitHub + Token Auth)
 # Denys Jackson - Na Ponta dos Pés
 # ==============================================
+# Uploads: use JPG/PNG/WebP, nomes simples (sem espaços). Ex: hero-desktop.jpg
+# Tamanhos recomendados: hero 1920x1080, galeria 1200x1200, banner show 1600x800, logos PNG transparente.
 
 backend:
   name: github
-  repo: eudenysjackson/site
+  repo: eudenysjackson/sitedenysjackson
   branch: main
+
+# Local (Decap + decap-server): local_backend: true — rode iniciar-local.ps1
+# Online (Sveltia): esta opção é ignorada
+local_backend: true
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
@@ -77,7 +83,7 @@ collections:
             name: "hero_image"
             widget: "image"
             required: false
-            hint: "Imagem de fundo no computador. Recomendado: 1920x1080px"
+            hint: "Imagem de fundo no computador. Recomendado: 1920x1080px, JPG ou WebP, nome sem espaços"
           - label: "Posição da Imagem Desktop"
             name: "hero_position"
             widget: "string"
@@ -88,7 +94,7 @@ collections:
             name: "hero_image_mobile"
             widget: "image"
             required: false
-            hint: "Imagem de fundo no celular. Se vazio, usa a mesma do desktop. Recomendado: 1080x1920px"
+            hint: "Imagem de fundo no celular. Se vazio, usa a mesma do desktop. Recomendado: 1080x1920px, JPG ou WebP"
           - label: "Posição da Imagem Mobile"
             name: "hero_position_mobile"
             widget: "string"
@@ -119,7 +125,7 @@ collections:
             name: "main_photo"
             widget: "image"
             required: false
-            hint: "Foto que aparece na seção Sobre. Recomendado: 600x800px"
+            hint: "Foto que aparece na seção Sobre. Formato 4:5 — recomendado 1080x1350px"
           - { label: "Biografia (Português)", name: "bio_pt", widget: "text", hint: "Separe parágrafos com Enter" }
           - { label: "Biografia (English)", name: "bio_en", widget: "text", required: false }
           - { label: "Biografia (Español)", name: "bio_es", widget: "text", required: false }
@@ -156,7 +162,7 @@ collections:
                 name: "banner"
                 widget: "image"
                 required: false
-                hint: "Imagem do banner/flyer do evento. Se enviada, o card mostra o banner com botão por cima. Recomendado: 800x400px ou proporcional."
+                hint: "Imagem do banner/flyer do evento. Recomendado: 1600x800px (2:1), JPG ou WebP"
               - label: "Esconder texto informativo?"
                 name: "hide_info"
                 widget: "boolean"
@@ -182,20 +188,11 @@ collections:
         file: "content/gallery.json"
         format: "json"
         fields:
-          - label: "Fotos"
+          - label: "Galeria de fotos"
             name: "photos"
-            widget: "list"
-            summary: "{{fields.caption}}"
-            fields:
-              - { label: "Imagem", name: "image", widget: "image" }
-              - { label: "Legenda", name: "caption", widget: "string", required: false }
-              - label: "Posição da Imagem"
-                name: "position"
-                widget: "string"
-                required: false
-                default: "50% 50%"
-                hint: "X% Y%. Ex: 50% 30% (centro, mais pro topo). 50% 50% = centro"
-              - { label: "Posição Mobile", name: "position_mobile", widget: "hidden", required: false }
+            widget: "galleryManager"
+            required: false
+            hint: "Envie fotos 4:5, ajuste na grade, exclua com ×. Clique Save/Publish. Local: rode node scripts/local-api.js"
 
   # ===== VISTO E APROVADO POR =====
   - name: "social_proof"

@@ -20,7 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONTENT LOADING ===== */
 
 // Fetch JSON direto do GitHub (atualiza instantâneo após commit do CMS)
-var GITHUB_RAW = 'https://raw.githubusercontent.com/eudenysjackson/site/main/';
+var IMG_ONERROR = "this.classList.add('media-img--error');var p=this.closest('.gallery-item,.media-logo-card,#about-photo,.show-card-banner');if(p)p.classList.add('media-fallback');";
+
+function galleryThumbPath(imagePath) {
+    if (!imagePath) return '';
+    var dot = imagePath.lastIndexOf('.');
+    if (dot === -1) return imagePath + '-thumb.jpg';
+    return imagePath.slice(0, dot) + '-thumb.jpg';
+}
+
+function galleryImgFallbackOnError() {
+    return "if(this.dataset.full&&!this.dataset.fellback){this.dataset.fellback=1;this.src=this.dataset.full;}";
+}
 
 async function loadContent() {
     await Promise.all([
@@ -35,32 +46,46 @@ async function loadContent() {
 }
 
 async function fetchJSON(path) {
-    // Tenta buscar direto do GitHub (sem cache, atualização imediata)
+    var bust = '?t=' + Date.now();
     try {
-        var res = await fetch(GITHUB_RAW + path + '?t=' + Date.now(), { cache: 'no-store' });
+        var res = await fetch(path + bust, { cache: 'no-store' });
         if (res.ok) return await res.json();
-    } catch (e) {}
-    // Fallback: busca local (GitHub Pages)
-    try {
-        var res2 = await fetch(path, { cache: 'no-store' });
-        if (res2.ok) return await res2.json();
     } catch (e) {}
     return null;
 }
 
-// Fix CMS absolute paths (/images/... → images/...)
-function fixPath(p) {
-    if (!p) return p;
-    var clean = p.startsWith('/') ? p.substring(1) : p;
-    return clean;
+// Encode CMS paths (/images/foo bar.png → images/foo%20bar.png)
+function mediaUrl(path, bustCache) {
+    if (!path) return '';
+    var raw = String(path).trim();
+    var qIndex = raw.indexOf('?');
+    var pathPart = qIndex >= 0 ? raw.substring(0, qIndex) : raw;
+    var queryPart = qIndex >= 0 ? raw.substring(qIndex + 1) : '';
+
+    if (/^https?:\/\//i.test(pathPart)) {
+        if (!bustCache) return raw;
+        return raw + (raw.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now();
+    }
+
+    if (pathPart.startsWith('/')) pathPart = pathPart.substring(1);
+
+    var encoded = pathPart.split('/').map(function(seg) {
+        if (!seg) return seg;
+        try { return encodeURIComponent(decodeURIComponent(seg)); } catch (e) { return encodeURIComponent(seg); }
+    }).join('/');
+
+    var url = encoded;
+    if (queryPart) url += '?' + queryPart;
+    if (bustCache) url += (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now();
+    return url;
 }
 
-// Fix path for images that need instant update (bust cache)
+function fixPath(p) {
+    return mediaUrl(p, false);
+}
+
 function fixImagePath(p) {
-    if (!p) return p;
-    var clean = p.startsWith('/') ? p.substring(1) : p;
-    // Add cache-buster to force reload after CMS update
-    return clean + '?t=' + Date.now();
+    return mediaUrl(p, true);
 }
 
 // Site config (social links, hero image, hero text)
@@ -71,7 +96,7 @@ async function loadSiteConfig() {
     // Set favicon
     if (data.favicon) {
         var fav = document.getElementById('favicon');
-        if (fav) fav.href = fixPath(data.favicon);
+        if (fav) fav.href = fixImagePath(data.favicon);
     }
 
     // Set hero background image if available
@@ -202,7 +227,7 @@ async function loadSocialProof() {
         var closeTag = hasLink ? '</a>' : '</div>';
         if (logo.image) {
             return openTag +
-                '<img src="' + escapeHTML(fixPath(logo.image)) + '" alt="' + name + '" class="h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity" style="' + posStyle + '">' +
+                '<img src="' + escapeHTML(fixImagePath(logo.image)) + '" alt="' + name + '" class="media-logo-img h-16 md:h-20 object-contain opacity-70 hover:opacity-100 transition-opacity" style="' + posStyle + '" onerror="' + IMG_ONERROR + '">' +
                 closeTag;
         }
         return openTag +
@@ -251,7 +276,7 @@ async function loadAbout() {
     if (data.main_photo) {
         const photoEl = document.getElementById('about-photo');
         if (photoEl) {
-            photoEl.innerHTML = `<img src="${fixPath(data.main_photo)}" alt="Denys Jackson" class="w-full h-full object-cover">`;
+            photoEl.innerHTML = `<img src="${fixImagePath(data.main_photo)}" alt="Denys Jackson" class="w-full h-full object-cover" onerror="${IMG_ONERROR}">`;
         }
     }
 }
@@ -345,7 +370,7 @@ function renderShows() {
 
             return `
                 <div class="show-card-banner fade-in visible">
-                    <img src="${fixImagePath(show.banner)}" alt="${escapeHTML(show.venue)}" class="show-banner-img" style="${bannerPosStyle}">
+                    <img src="${fixImagePath(show.banner)}" alt="${escapeHTML(show.venue)}" class="show-banner-img" style="${bannerPosStyle}" onerror="${IMG_ONERROR}">
                     <div class="show-banner-overlay">
                         ${infoOverlay}
                         ${bannerTicketBtn}
@@ -372,6 +397,12 @@ function renderShows() {
 }
 
 // Gallery
+function normalizeGalleryItem(item) {
+    if (!item) return item;
+    if (item.photo && typeof item.photo === 'object') return item.photo;
+    return item;
+}
+
 async function loadGallery() {
     const data = await fetchJSON('content/gallery.json');
     if (!data || !data.photos || data.photos.length === 0) return;
@@ -382,12 +413,18 @@ async function loadGallery() {
 
     emptyState.classList.add('hidden');
 
-    grid.innerHTML = data.photos.map((photo, i) => {
+    grid.innerHTML = data.photos.map((raw, i) => {
+        const photo = normalizeGalleryItem(raw);
         var isMobileG = window.innerWidth < 768;
         var pos = isMobileG ? (photo.position_mobile || photo.position || '50% 50%') : (photo.position || '50% 50%');
+        var scale = photo.scale || 100;
+        var fullSrc = fixImagePath(photo.image);
+        var thumbSrc = fixImagePath(galleryThumbPath(photo.image));
+        var imgStyle = 'object-position:' + pos + ';';
+        if (scale !== 100) imgStyle += 'transform:scale(' + (scale / 100) + ');';
         return `
-        <div class="gallery-item" data-index="${i}" data-src="${fixPath(photo.image)}" data-caption="${escapeHTML(photo.caption || '')}">
-            <img src="${fixPath(photo.image)}" alt="${escapeHTML(photo.caption || 'Foto')}" loading="lazy" style="object-position: ${pos}">
+        <div class="gallery-item" data-index="${i}" data-src="${fullSrc}" data-caption="${escapeHTML(photo.caption || '')}">
+            <img src="${thumbSrc}" data-full="${fullSrc}" alt="${escapeHTML(photo.caption || 'Foto')}" loading="lazy" decoding="async" fetchpriority="low" style="${imgStyle}" onerror="${galleryImgFallbackOnError()}">
             <div class="overlay">
                 <span>${escapeHTML(photo.caption || '')}</span>
             </div>
@@ -412,7 +449,7 @@ async function loadVideos() {
         return `
         <div class="video-card">
             <div class="video-thumb" onclick="this.innerHTML='<iframe src=\\'https://www.youtube.com/embed/${vid}?autoplay=1\\' title=\\'${escapeHTML(video.title)}\\' allow=\\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\' allowfullscreen></iframe>'">
-                <img src="https://img.youtube.com/vi/${vid}/hqdefault.jpg" alt="${escapeHTML(video.title)}" loading="lazy">
+                <img src="https://img.youtube.com/vi/${vid}/hqdefault.jpg" alt="${escapeHTML(video.title)}" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/${vid}/mqdefault.jpg'">
                 <div class="play-btn"><svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.64 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24 27 14v20" fill="white"/></svg></div>
             </div>
             <div class="video-info">
